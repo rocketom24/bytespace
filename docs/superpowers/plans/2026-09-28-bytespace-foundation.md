@@ -1,6 +1,6 @@
 # ByteSpace Foundation Implementation Plan
 
-> **For agentic workers:** REQUIRED SUB-SKILL: Use superpowers:executing-plans to implement this plan task-by-task. Steps use checkbox (`- [ ]`) syntax for tracking.
+> **For agentic workers:** REQUIRED SUB-SKILL: Use superpowers:executing-plans to implement this plan task-by-task. Steps use checkbox (`- [x]`) syntax for tracking.
 
 **Goal:** Build ByteSpace's shared visual/structural foundation — tokens, nav, page shell, horizontal-desktop/vertical-mobile scroll engine, UI primitives, placeholder data, and minimal placeholder content on all 7 routes.
 
@@ -31,7 +31,7 @@
 **Interfaces:**
 - Produces: Tailwind utility tokens `bg-primary`, `text-primary`, `bg-secondary`, `bg-soft`, `bg-background`, `text-ink`, `text-ink-muted`, `bg-surface`, and `font-sans` (mapped to Plus Jakarta Sans). All later tasks style with these utilities only.
 
-- [ ] **Step 1: Replace `app/globals.css` contents**
+- [x] **Step 1: Replace `app/globals.css` contents**
 
 ```css
 @import "tailwindcss";
@@ -63,7 +63,7 @@ body {
 }
 ```
 
-- [ ] **Step 2: Replace `app/layout.tsx` contents**
+- [x] **Step 2: Replace `app/layout.tsx` contents**
 
 ```tsx
 import type { Metadata } from "next";
@@ -95,7 +95,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
 
 This imports `Navbar`, created in Task 4 — expect a resolution error until then, that's fine.
 
-- [ ] **Step 3: Commit**
+- [x] **Step 3: Commit**
 
 ```bash
 git add app/globals.css app/layout.tsx
@@ -116,7 +116,7 @@ git commit -m "feat: add ByteSpace design tokens and root layout"
 - Consumes: tokens from Task 1 (`bg-primary`, `text-ink`, etc.)
 - Produces: `cn(...classes: Array<string | false | null | undefined>): string`; `Button({ children, variant?: "primary"|"outline"|"ghost", href?: string, className?, ...buttonProps })`; `Badge({ children, className? })`; `Card({ children, className? })`. All later component/page tasks import these.
 
-- [ ] **Step 1: Create `lib/cn.ts`**
+- [x] **Step 1: Create `lib/cn.ts`**
 
 ```ts
 export function cn(...classes: Array<string | false | null | undefined>) {
@@ -124,7 +124,7 @@ export function cn(...classes: Array<string | false | null | undefined>) {
 }
 ```
 
-- [ ] **Step 2: Create `components/ui/Button.tsx`**
+- [x] **Step 2: Create `components/ui/Button.tsx`**
 
 ```tsx
 import Link from "next/link";
@@ -174,7 +174,7 @@ export function Button({
 }
 ```
 
-- [ ] **Step 3: Create `components/ui/Badge.tsx`**
+- [x] **Step 3: Create `components/ui/Badge.tsx`**
 
 ```tsx
 import { cn } from "@/lib/cn";
@@ -199,7 +199,7 @@ export function Badge({
 }
 ```
 
-- [ ] **Step 4: Create `components/ui/Card.tsx`**
+- [x] **Step 4: Create `components/ui/Card.tsx`**
 
 ```tsx
 import { cn } from "@/lib/cn";
@@ -219,12 +219,12 @@ export function Card({
 }
 ```
 
-- [ ] **Step 5: Type-check**
+- [x] **Step 5: Type-check**
 
 Run: `npx tsc --noEmit`
 Expected: the only error is `Cannot find module '@/components/layout/Navbar'` from `app/layout.tsx` (Task 1 references it ahead of Task 4 creating it) — that's expected and resolves in Task 4. No errors from the four new files themselves.
 
-- [ ] **Step 6: Commit**
+- [x] **Step 6: Commit**
 
 ```bash
 git add lib/cn.ts components/ui/Button.tsx components/ui/Badge.tsx components/ui/Card.tsx
@@ -248,7 +248,7 @@ git commit -m "feat: add cn helper and base UI primitives"
 - Produces types: `Course`, `Creator`, `Lesson`, `Review` (from `data/*.ts`).
 - Produces functions: `getCourseById(id: string): Course | undefined`, `getCoursesByCreatorId(creatorId: string): Course[]`, `getCreatorById(id: string): Creator | undefined`, `getLessonById(id: string): Lesson | undefined`, `getLessonsByCourseId(courseId: string): Lesson[]`. Dynamic-route pages (Tasks 10–12) consume these.
 
-- [ ] **Step 1: Create `data/courses.ts`**
+- [x] **Step 1: Create `data/courses.ts`**
 
 ```ts
 export type Course = {
@@ -312,7 +312,7 @@ export const courses: Course[] = [
 ];
 ```
 
-- [ ] **Step 2: Create `data/creators.ts`**
+- [x] **Step 2: Create `data/creators.ts`**
 
 ```ts
 export type Creator = {
@@ -348,7 +348,7 @@ export const creators: Creator[] = [
 ];
 ```
 
-- [ ] **Step 3: Create `data/lessons.ts`**
+- [x] **Step 3: Create `data/lessons.ts`**
 
 ```ts
 export type Lesson = {
@@ -369,7 +369,7 @@ export const lessons: Lesson[] = [
 ];
 ```
 
-- [ ] **Step 4: Create `data/reviews.ts`**
+- [x] **Step 4: Create `data/reviews.ts`**
 
 ```ts
 export type Review = {
@@ -405,7 +405,7 @@ export const reviews: Review[] = [
 ];
 ```
 
-- [ ] **Step 5: Create `lib/courses.ts`**
+- [x] **Step 5: Create `lib/courses.ts`**
 
 ```ts
 import { courses, type Course } from "@/data/courses";
@@ -419,7 +419,7 @@ export function getCoursesByCreatorId(creatorId: string): Course[] {
 }
 ```
 
-- [ ] **Step 6: Create `lib/creators.ts`**
+- [x] **Step 6: Create `lib/creators.ts`**
 
 ```ts
 import { creators, type Creator } from "@/data/creators";
@@ -429,7 +429,7 @@ export function getCreatorById(id: string): Creator | undefined {
 }
 ```
 
-- [ ] **Step 7: Create `lib/lessons.ts`**
+- [x] **Step 7: Create `lib/lessons.ts`**
 
 ```ts
 import { lessons, type Lesson } from "@/data/lessons";
@@ -445,12 +445,12 @@ export function getLessonsByCourseId(courseId: string): Lesson[] {
 }
 ```
 
-- [ ] **Step 8: Type-check**
+- [x] **Step 8: Type-check**
 
 Run: `npx tsc --noEmit`
 Expected: still only the known `Cannot find module '@/components/layout/Navbar'` error from Task 1 (resolves in Task 4). No errors from the new `data/` and `lib/` files.
 
-- [ ] **Step 9: Commit**
+- [x] **Step 9: Commit**
 
 ```bash
 git add data/courses.ts data/creators.ts data/lessons.ts data/reviews.ts lib/courses.ts lib/creators.ts lib/lessons.ts
@@ -470,7 +470,7 @@ git commit -m "feat: add placeholder course data and lookup helpers"
 - Consumes: `cn` (Task 2), `Button` (Task 2).
 - Produces: `Container({ children, className? })`, `Slide({ children, className? })` (client, motion-wrapped section — every route wraps its content units in this), `Navbar()` (rendered once from `app/layout.tsx`, Task 1).
 
-- [ ] **Step 1: Create `components/layout/Container.tsx`**
+- [x] **Step 1: Create `components/layout/Container.tsx`**
 
 ```tsx
 import { cn } from "@/lib/cn";
@@ -486,7 +486,7 @@ export function Container({
 }
 ```
 
-- [ ] **Step 2: Create `components/layout/Slide.tsx`**
+- [x] **Step 2: Create `components/layout/Slide.tsx`**
 
 ```tsx
 "use client";
@@ -518,7 +518,7 @@ export function Slide({
 }
 ```
 
-- [ ] **Step 3: Create `components/layout/Navbar.tsx`**
+- [x] **Step 3: Create `components/layout/Navbar.tsx`**
 
 ```tsx
 import Link from "next/link";
@@ -552,12 +552,12 @@ export function Navbar() {
 }
 ```
 
-- [ ] **Step 4: Type-check**
+- [x] **Step 4: Type-check**
 
 Run: `npx tsc --noEmit`
 Expected: no errors from the three new files. `app/layout.tsx`'s `Navbar` import (Task 1) now resolves.
 
-- [ ] **Step 5: Commit**
+- [x] **Step 5: Commit**
 
 ```bash
 git add components/layout/Container.tsx components/layout/Slide.tsx components/layout/Navbar.tsx
@@ -575,7 +575,7 @@ git commit -m "feat: add layout shell (Container, Slide, Navbar)"
 - Consumes: `lenis` package default export (`new Lenis({ wrapper, content, orientation, gestureOrientation })`, `.raf(time)`, `.destroy()`).
 - Produces: `ScrollTrack({ children })` — every page's top-level wrapper (Tasks 7–13).
 
-- [ ] **Step 1: Create `components/scroll/ScrollTrack.tsx`**
+- [x] **Step 1: Create `components/scroll/ScrollTrack.tsx`**
 
 ```tsx
 "use client";
@@ -635,12 +635,12 @@ export function ScrollTrack({ children }: { children: React.ReactNode }) {
 }
 ```
 
-- [ ] **Step 2: Type-check**
+- [x] **Step 2: Type-check**
 
 Run: `npx tsc --noEmit`
 Expected: no errors (the `lenis` package ships its own types, already installed per `package.json`).
 
-- [ ] **Step 3: Commit**
+- [x] **Step 3: Commit**
 
 ```bash
 git add components/scroll/ScrollTrack.tsx
@@ -659,7 +659,7 @@ git commit -m "feat: add Lenis-driven horizontal/vertical ScrollTrack"
 - Consumes: `Card`, `Badge` (Task 2), `Course` type (Task 3, `@/data/courses`), `Creator` type (Task 3, `@/data/creators`).
 - Produces: `CourseCard({ course: Course })`, `CreatorCard({ creator: Creator })` — used by Tasks 7–12.
 
-- [ ] **Step 1: Create `components/ui/CourseCard.tsx`**
+- [x] **Step 1: Create `components/ui/CourseCard.tsx`**
 
 ```tsx
 import Link from "next/link";
@@ -687,7 +687,7 @@ export function CourseCard({ course }: { course: Course }) {
 }
 ```
 
-- [ ] **Step 2: Create `components/ui/CreatorCard.tsx`**
+- [x] **Step 2: Create `components/ui/CreatorCard.tsx`**
 
 ```tsx
 import Link from "next/link";
@@ -707,12 +707,12 @@ export function CreatorCard({ creator }: { creator: Creator }) {
 }
 ```
 
-- [ ] **Step 3: Type-check**
+- [x] **Step 3: Type-check**
 
 Run: `npx tsc --noEmit`
 Expected: no errors from the two new files.
 
-- [ ] **Step 4: Commit**
+- [x] **Step 4: Commit**
 
 ```bash
 git add components/ui/CourseCard.tsx components/ui/CreatorCard.tsx
@@ -729,7 +729,7 @@ git commit -m "feat: add CourseCard and CreatorCard"
 **Interfaces:**
 - Consumes: `ScrollTrack` (Task 5), `Slide`, `Container` (Task 4), `Button`, `Badge` (Task 2), `CourseCard`, `CreatorCard` (Task 6), `courses` (Task 3), `creators` (Task 3).
 
-- [ ] **Step 1: Replace `app/page.tsx` contents**
+- [x] **Step 1: Replace `app/page.tsx` contents**
 
 ```tsx
 import { ScrollTrack } from "@/components/scroll/ScrollTrack";
@@ -799,12 +799,12 @@ export default function HomePage() {
 }
 ```
 
-- [ ] **Step 2: Verify render**
+- [x] **Step 2: Verify render**
 
 Run: `npm run dev` (if not already running), open `http://localhost:3000/`.
 Expected: hero, featured courses, creators, CTA sections render with no console errors; ≥1024px width wheel-scrolls horizontally, narrow width stacks vertically.
 
-- [ ] **Step 3: Commit**
+- [x] **Step 3: Commit**
 
 ```bash
 git add app/page.tsx
@@ -821,7 +821,7 @@ git commit -m "feat: build ByteSpace home page foundation"
 **Interfaces:**
 - Consumes: same as Task 7 minus `CreatorCard`.
 
-- [ ] **Step 1: Replace `app/search/page.tsx` contents**
+- [x] **Step 1: Replace `app/search/page.tsx` contents**
 
 ```tsx
 import { ScrollTrack } from "@/components/scroll/ScrollTrack";
@@ -862,11 +862,11 @@ export default function SearchPage() {
 }
 ```
 
-- [ ] **Step 2: Verify render**
+- [x] **Step 2: Verify render**
 
 Open `http://localhost:3000/search`. Expected: filter-bar shell and course grid render, no console errors.
 
-- [ ] **Step 3: Commit**
+- [x] **Step 3: Commit**
 
 ```bash
 git add app/search/page.tsx
@@ -883,7 +883,7 @@ git commit -m "feat: build ByteSpace search page foundation"
 **Interfaces:**
 - Consumes: `ScrollTrack`, `Slide`, `Container`, `Card`, `reviews` (Task 3, `@/data/reviews`), `courses` (Task 3, `@/data/courses`).
 
-- [ ] **Step 1: Replace `app/reviews/page.tsx` contents**
+- [x] **Step 1: Replace `app/reviews/page.tsx` contents**
 
 ```tsx
 import { ScrollTrack } from "@/components/scroll/ScrollTrack";
@@ -919,11 +919,11 @@ export default function ReviewsPage() {
 }
 ```
 
-- [ ] **Step 2: Verify render**
+- [x] **Step 2: Verify render**
 
 Open `http://localhost:3000/reviews`. Expected: review cards render with course attribution, no console errors.
 
-- [ ] **Step 3: Commit**
+- [x] **Step 3: Commit**
 
 ```bash
 git add app/reviews/page.tsx
@@ -940,7 +940,7 @@ git commit -m "feat: build ByteSpace reviews page foundation"
 **Interfaces:**
 - Consumes: `ScrollTrack`, `Slide`, `Container`, `Badge`, `CreatorCard`, `getCourseById`, `getCreatorById`, `getLessonsByCourseId` (Tasks 2–6), `notFound` from `next/navigation`, global `PageProps<"/course/[id]">` type helper.
 
-- [ ] **Step 1: Replace `app/course/[id]/page.tsx` contents**
+- [x] **Step 1: Replace `app/course/[id]/page.tsx` contents**
 
 ```tsx
 import { notFound } from "next/navigation";
@@ -1017,12 +1017,12 @@ export default async function CoursePage(props: PageProps<"/course/[id]">) {
 }
 ```
 
-- [ ] **Step 2: Verify render and 404**
+- [x] **Step 2: Verify render and 404**
 
 Open `http://localhost:3000/course/1`. Expected: course hero, curriculum, instructor sections render.
 Open `http://localhost:3000/course/does-not-exist`. Expected: renders `app/not-found.tsx` (Task 13).
 
-- [ ] **Step 3: Commit**
+- [x] **Step 3: Commit**
 
 ```bash
 git add app/course/\[id\]/page.tsx
@@ -1039,7 +1039,7 @@ git commit -m "feat: build ByteSpace course detail page foundation"
 **Interfaces:**
 - Consumes: `ScrollTrack`, `Slide`, `Container`, `getLessonById`, `getLessonsByCourseId`, `getCourseById`, `notFound`, global `PageProps<"/lesson/[id]">`.
 
-- [ ] **Step 1: Replace `app/lesson/[id]/page.tsx` contents**
+- [x] **Step 1: Replace `app/lesson/[id]/page.tsx` contents**
 
 ```tsx
 import { notFound } from "next/navigation";
@@ -1106,12 +1106,12 @@ export default async function LessonPage(props: PageProps<"/lesson/[id]">) {
 }
 ```
 
-- [ ] **Step 2: Verify render and 404**
+- [x] **Step 2: Verify render and 404**
 
 Open `http://localhost:3000/lesson/1`. Expected: lesson shell + course lesson list render.
 Open `http://localhost:3000/lesson/does-not-exist`. Expected: renders `app/not-found.tsx`.
 
-- [ ] **Step 3: Commit**
+- [x] **Step 3: Commit**
 
 ```bash
 git add app/lesson/\[id\]/page.tsx
@@ -1128,7 +1128,7 @@ git commit -m "feat: build ByteSpace lesson detail page foundation"
 **Interfaces:**
 - Consumes: `ScrollTrack`, `Slide`, `Container`, `CourseCard`, `getCreatorById`, `getCoursesByCreatorId`, `notFound`, global `PageProps<"/creator/[id]">`.
 
-- [ ] **Step 1: Replace `app/creator/[id]/page.tsx` contents**
+- [x] **Step 1: Replace `app/creator/[id]/page.tsx` contents**
 
 ```tsx
 import { notFound } from "next/navigation";
@@ -1175,12 +1175,12 @@ export default async function CreatorPage(props: PageProps<"/creator/[id]">) {
 }
 ```
 
-- [ ] **Step 2: Verify render and 404**
+- [x] **Step 2: Verify render and 404**
 
 Open `http://localhost:3000/creator/amara-chen`. Expected: creator hero + course grid render.
 Open `http://localhost:3000/creator/does-not-exist`. Expected: renders `app/not-found.tsx`.
 
-- [ ] **Step 3: Commit**
+- [x] **Step 3: Commit**
 
 ```bash
 git add app/creator/\[id\]/page.tsx
@@ -1197,7 +1197,7 @@ git commit -m "feat: build ByteSpace creator detail page foundation"
 **Interfaces:**
 - Consumes: `Button` (Task 2).
 
-- [ ] **Step 1: Replace `app/not-found.tsx` contents**
+- [x] **Step 1: Replace `app/not-found.tsx` contents**
 
 ```tsx
 import { Button } from "@/components/ui/Button";
@@ -1215,11 +1215,11 @@ export default function NotFound() {
 }
 ```
 
-- [ ] **Step 2: Verify render**
+- [x] **Step 2: Verify render**
 
 Open `http://localhost:3000/course/does-not-exist` (or any unmatched route). Expected: on-brand 404 renders, "Back home" button links to `/`.
 
-- [ ] **Step 3: Commit**
+- [x] **Step 3: Commit**
 
 ```bash
 git add app/not-found.tsx
@@ -1232,17 +1232,17 @@ git commit -m "feat: build ByteSpace not-found page"
 
 **Files:** none (verification only)
 
-- [ ] **Step 1: Run the production build**
+- [x] **Step 1: Run the production build**
 
 Run: `npm run build`
 Expected: build succeeds (Turbopack compiles, typegen resolves `PageProps`/`LayoutProps`, ESLint passes) with no errors. If it fails, fix the reported file and re-run before proceeding.
 
-- [ ] **Step 2: Spot-check all 7 routes in dev**
+- [x] **Step 2: Spot-check all 7 routes in dev**
 
 Run: `npm run dev`, visit `/`, `/search`, `/reviews`, `/course/1`, `/lesson/1`, `/creator/amara-chen`, and an unmatched dynamic id.
 Expected: all render without console/runtime errors; ≥1024px width pans horizontally per section; <1024px width stacks vertically.
 
-- [ ] **Step 3: Final commit (if the build step required fixes)**
+- [x] **Step 3: Final commit (if the build step required fixes)**
 
 ```bash
 git add -A
