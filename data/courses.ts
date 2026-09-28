@@ -11,6 +11,8 @@ export type Course = {
   rating: number;
   studentCount: number;
   coverColor: string;
+  price: number;
+  commentCount: number;
 };
 
 export const courses: Course[] = [
@@ -27,6 +29,8 @@ export const courses: Course[] = [
     rating: 4.8,
     studentCount: 12400,
     coverColor: "#88BDA4",
+    price: 49,
+    commentCount: 342,
   },
   {
     id: "2",
@@ -41,6 +45,8 @@ export const courses: Course[] = [
     rating: 4.9,
     studentCount: 8700,
     coverColor: "#659287",
+    price: 59,
+    commentCount: 210,
   },
   {
     id: "3",
@@ -55,5 +61,7 @@ export const courses: Course[] = [
     rating: 4.7,
     studentCount: 5300,
     coverColor: "#B1D3B9",
+    price: 79,
+    commentCount: 128,
   },
 ];

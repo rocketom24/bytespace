@@ -2,8 +2,9 @@ import Link from "next/link";
 import { Button } from "@/components/ui/Button";
 
 const links = [
-  { href: "/search", label: "Search" },
-  { href: "/reviews", label: "Reviews" },
+  { href: "/", label: "Home" },
+  { href: "/search", label: "Courses" },
+  { href: "/#creators", label: "Creators" },
 ];
 
 export function Navbar() {
@@ -20,9 +21,14 @@ export function Navbar() {
             </Link>
           ))}
         </div>
-        <Button href="/search" variant="primary" className="px-5 py-2 text-xs">
-          Start learning
-        </Button>
+        <div className="flex items-center gap-2">
+          <button className="hidden text-sm font-semibold text-ink hover:text-primary sm:inline-flex">
+            Sign In
+          </button>
+          <Button variant="primary" className="px-5 py-2 text-xs">
+            Join Us
+          </Button>
+        </div>
       </nav>
     </header>
   );
