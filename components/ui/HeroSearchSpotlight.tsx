@@ -19,7 +19,7 @@ type Shortcut = {
 const shortcuts: Shortcut[] = categories.slice(0, 4).map((category) => ({
   label: category.name,
   icon: categoryIconMap[category.icon],
-  href: "/search",
+  href: "/courses",
 }));
 
 function categoryIconFor(categoryName: string) {
@@ -82,6 +82,7 @@ function SpotlightInput({
   value,
   onChange,
   onFocus,
+  onSubmit,
   placeholderClassName,
 }: {
   open: boolean;
@@ -90,6 +91,7 @@ function SpotlightInput({
   value: string;
   onChange: (value: string) => void;
   onFocus: () => void;
+  onSubmit?: () => void;
   placeholderClassName?: string;
 }) {
   const inputRef = useRef<HTMLInputElement>(null);
@@ -101,7 +103,13 @@ function SpotlightInput({
   return (
     <div className="flex h-16 w-full items-center justify-start gap-3 px-5">
       <motion.div layout className="text-primary">
-        <Search className="h-5 w-5 shrink-0" aria-hidden />
+        {onSubmit ? (
+          <button type="button" onClick={onSubmit} aria-label="Search" className="flex">
+            <Search className="h-5 w-5 shrink-0" aria-hidden />
+          </button>
+        ) : (
+          <Search className="h-5 w-5 shrink-0" aria-hidden />
+        )}
       </motion.div>
       <div className="relative flex-1 text-lead">
         {!hidePlaceholder && (
@@ -114,6 +122,12 @@ function SpotlightInput({
           value={value}
           onChange={(event) => onChange(event.target.value)}
           onFocus={onFocus}
+          onKeyDown={(event) => {
+            if (event.key === "Enter") {
+              event.preventDefault();
+              onSubmit?.();
+            }
+          }}
           className="w-full bg-transparent text-ink outline-none"
         />
       </div>
@@ -177,7 +191,7 @@ function SearchResultsContainer({
   );
 }
 
-export function HeroSearchSpotlight() {
+export function HeroSearchSpotlight({ onSubmit }: { onSubmit?: (query: string) => void } = {}) {
   const wrapperRef = useRef<HTMLDivElement>(null);
   const [open, setOpen] = useState(false);
   const [hoveredResult, setHoveredResult] = useState<number | null>(null);
@@ -189,6 +203,14 @@ export function HeroSearchSpotlight() {
     setSearchValue("");
     setHoveredResult(null);
     setHoveredShortcut(null);
+  };
+
+  const handleSubmit = () => {
+    const value = searchValue.trim();
+    if (!value) return;
+    onSubmit?.(value);
+    setOpen(false);
+    setHoveredResult(null);
   };
 
   useEffect(() => {
@@ -236,6 +258,7 @@ export function HeroSearchSpotlight() {
           value={searchValue}
           onChange={setSearchValue}
           onFocus={() => setOpen(true)}
+          onSubmit={onSubmit ? handleSubmit : undefined}
         />
       </motion.div>
 

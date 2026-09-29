@@ -1,21 +1,79 @@
 "use client";
 
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
+import { Menu, X } from "lucide-react";
 import { useRef, useState } from "react";
 
 const links = [
   { href: "/", label: "Home" },
-  { href: "/search", label: "Courses" },
+  { href: "/courses", label: "Courses" },
   { href: "/#creators", label: "Creators" },
 ];
 
 type PillRect = { left: number; top: number; width: number; height: number };
 
+function CompactNavbar() {
+  const [open, setOpen] = useState(false);
+  const reduceMotion = useReducedMotion();
+
+  return (
+    <header className="fixed inset-x-0 top-6 z-50 flex justify-end px-4 sm:px-6">
+      <div className="relative">
+        <button
+          type="button"
+          onClick={() => setOpen((value) => !value)}
+          aria-label={open ? "Close menu" : "Open menu"}
+          aria-expanded={open}
+          className="flex h-12 w-12 items-center justify-center rounded-full border border-white/10 bg-ink/95 text-background shadow-xl shadow-ink/25 backdrop-blur transition-colors hover:text-secondary"
+        >
+          {open ? <X className="h-5 w-5" aria-hidden /> : <Menu className="h-5 w-5" aria-hidden />}
+        </button>
+
+        <AnimatePresence>
+          {open && (
+            <motion.div
+              initial={{ opacity: 0, y: -8, scale: 0.95 }}
+              animate={{ opacity: 1, y: 0, scale: 1 }}
+              exit={{ opacity: 0, y: -8, scale: 0.95, transition: { duration: reduceMotion ? 0 : 0.15 } }}
+              transition={reduceMotion ? { duration: 0 } : { type: "spring", stiffness: 400, damping: 30 }}
+              className="absolute right-0 top-[calc(100%+0.5rem)] flex w-48 flex-col gap-1 rounded-3xl border border-white/10 bg-ink/95 p-2 shadow-xl shadow-ink/25 backdrop-blur"
+            >
+              {links.map((link) => (
+                <Link
+                  key={link.href}
+                  href={link.href}
+                  onClick={() => setOpen(false)}
+                  className="rounded-xl px-3 py-2 text-meta font-medium text-background/90 transition-colors hover:bg-white/10 hover:text-secondary"
+                >
+                  {link.label}
+                </Link>
+              ))}
+              <div className="my-1 h-px bg-white/10" />
+              <button className="rounded-xl px-3 py-2 text-left text-meta font-medium text-background/90 transition-colors hover:bg-white/10">
+                Sign In
+              </button>
+              <button className="rounded-xl bg-secondary px-3 py-2 text-left text-meta font-semibold text-ink transition-colors hover:bg-secondary/90">
+                Join Us
+              </button>
+            </motion.div>
+          )}
+        </AnimatePresence>
+      </div>
+    </header>
+  );
+}
+
 export function Navbar() {
   const containerRef = useRef<HTMLDivElement>(null);
   const [pill, setPill] = useState<PillRect | null>(null);
   const reduceMotion = useReducedMotion();
+  const pathname = usePathname();
+
+  if (pathname === "/courses" || pathname === "/courses/all") {
+    return <CompactNavbar />;
+  }
 
   const trackPill = (target: HTMLElement) => {
     const container = containerRef.current;

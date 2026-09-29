@@ -14,7 +14,7 @@ export function CategoryTile({
   const Icon = categoryIconMap[category.icon];
   return (
     <Link
-      href="/search"
+      href="/courses"
       className={cn(
         "group flex flex-col gap-[clamp(0.6rem,1.4vh,1rem)] rounded-3xl bg-surface p-[clamp(1rem,0.9vw+0.9vh,1.6rem)] transition-transform duration-300 hover:-translate-y-1",
         className

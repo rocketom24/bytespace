@@ -102,3 +102,30 @@ body {
     animation: none;
   }
 }
+
+/*
+ * Scoped shared-element transitions (course cover / creator avatar) use
+ * React's native <ViewTransition>. Once any ViewTransition participates,
+ * the browser also cross-fades the rest of the document by default via
+ * ::view-transition-{old,new}(root) - disable that so it doesn't double up
+ * with the existing Framer fade in app/template.tsx.
+ */
+::view-transition-old(root),
+::view-transition-new(root) {
+  animation: none;
+  mix-blend-mode: normal;
+}
+
+/* Keep the page clickable while a transition's overlay is animating. */
+::view-transition {
+  pointer-events: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  ::view-transition-group(*),
+  ::view-transition-old(*),
+  ::view-transition-new(*) {
+    animation-duration: 0s !important;
+    animation-delay: 0s !important;
+  }
+}

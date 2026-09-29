@@ -5,12 +5,11 @@ import { Slide } from "@/components/layout/Slide";
 import { Container } from "@/components/layout/Container";
 import { Footer } from "@/components/layout/Footer";
 import { Button } from "@/components/ui/Button";
-import { Badge } from "@/components/ui/Badge";
 import { Marquee } from "@/components/ui/Marquee";
 import { RibbonMarquee } from "@/components/ui/RibbonMarquee";
 import { CategoryPill } from "@/components/ui/CategoryPill";
 import { CategoryTile } from "@/components/ui/CategoryTile";
-import { FeaturedCourseCard } from "@/components/ui/FeaturedCourseCard";
+import { NotchedVideoCard } from "@/components/ui/NotchedVideoCard";
 import { HeroCardStack } from "@/components/ui/HeroCardStack";
 import { HeroDoodles } from "@/components/ui/HeroDoodles";
 import { HeroSearchSpotlight } from "@/components/ui/HeroSearchSpotlight";
@@ -106,7 +105,7 @@ export default function HomePage() {
               </p>
               <HeroSearchSpotlight />
               <div className="flex flex-wrap items-center gap-3">
-                <Button href="/search">Browse courses</Button>
+                <Button href="/courses">Browse courses</Button>
                 <Link
                   href="/reviews"
                   className="flex h-11 w-11 items-center justify-center rounded-full bg-secondary text-ink shadow-sm transition-transform hover:scale-105"
@@ -127,7 +126,6 @@ export default function HomePage() {
       >
         <Container width="wide" className="relative z-10 flex flex-col gap-[var(--block)]">
           <div className="flex flex-col gap-3">
-            <Badge>Explore by category</Badge>
             <h2 className="max-w-[22ch] text-title font-bold text-ink">
               Featured learning, organized your way
             </h2>
@@ -143,12 +141,13 @@ export default function HomePage() {
             ))}
           </Marquee>
 
-          <div className="grid grid-cols-[repeat(auto-fit,minmax(min(100%,15rem),1fr))] max-w-[min(100%,68rem)] gap-[clamp(0.75rem,1.6vw,1.5rem)]">
+          <div className="grid grid-cols-[repeat(auto-fit,minmax(min(100%,14rem),15rem))] max-w-[min(100%,68rem)] gap-[clamp(0.6rem,1.2vw,1.1rem)]">
             {courses.map((course) => (
-              <FeaturedCourseCard
+              <NotchedVideoCard
                 key={course.id}
                 course={course}
                 creator={getCreatorById(course.creatorId)}
+                compact
               />
             ))}
           </div>
@@ -202,7 +201,6 @@ export default function HomePage() {
       >
         <Container className="relative z-10 flex flex-col gap-[var(--block)]">
           <div className="flex flex-col gap-3">
-            <Badge>For creators</Badge>
             <h2 className="max-w-[24ch] text-title font-bold text-ink">
               Built on a platform that keeps growing
             </h2>

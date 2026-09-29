@@ -4,15 +4,15 @@ import Link from "next/link";
 import { Button } from "@/components/ui/Button";
 
 const courseLinks = [
-  { label: "Web Development", href: "/search" },
-  { label: "Programming Languages", href: "/search" },
-  { label: "Computer Science", href: "/search" },
+  { label: "Web Development", href: "/courses" },
+  { label: "Programming Languages", href: "/courses" },
+  { label: "Computer Science", href: "/courses" },
 ];
 
 const platformLinks = [
   { label: "Become a creator", href: "/#creators" },
   { label: "Reviews", href: "/reviews" },
-  { label: "Pricing", href: "/search" },
+  { label: "Pricing", href: "/courses" },
 ];
 
 const companyLinks = [

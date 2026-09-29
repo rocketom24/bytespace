@@ -1,4 +1,5 @@
 import { notFound } from "next/navigation";
+import { ViewTransition } from "react";
 import { ScrollTrack } from "@/components/scroll/ScrollTrack";
 import { Slide } from "@/components/layout/Slide";
 import { Container } from "@/components/layout/Container";
@@ -28,9 +29,18 @@ export default async function CoursePage(props: PageProps<"/course/[id]">) {
         backdrop={<SectionDoodles seed={10} density="medium" />}
       >
         <Container className="relative z-10 flex flex-col gap-[var(--block)]">
-          <div className="flex gap-2">
-            <Badge>{course.category}</Badge>
-            <Badge>{course.level}</Badge>
+          <div className="flex items-center gap-3">
+            <ViewTransition name={`course-cover-${course.id}`} share="auto" default="none">
+              <span
+                aria-hidden
+                className="h-[clamp(2.5rem,6vh,3.5rem)] w-[clamp(2.5rem,6vh,3.5rem)] shrink-0 rounded-2xl"
+                style={{ backgroundColor: course.coverColor }}
+              />
+            </ViewTransition>
+            <div className="flex gap-2">
+              <Badge>{course.category}</Badge>
+              <Badge>{course.level}</Badge>
+            </div>
           </div>
           <h1 className="max-w-[20ch] text-display font-bold text-ink">
             {course.title}
