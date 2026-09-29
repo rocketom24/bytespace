@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { Search, ArrowRight, ArrowUpRight, Asterisk, CheckCircle2 } from "lucide-react";
+import { ArrowRight, ArrowUpRight, Asterisk, CheckCircle2 } from "lucide-react";
 import { ScrollTrack } from "@/components/scroll/ScrollTrack";
 import { Slide } from "@/components/layout/Slide";
 import { Container } from "@/components/layout/Container";
@@ -13,6 +13,7 @@ import { CategoryTile } from "@/components/ui/CategoryTile";
 import { FeaturedCourseCard } from "@/components/ui/FeaturedCourseCard";
 import { HeroCardStack } from "@/components/ui/HeroCardStack";
 import { HeroDoodles } from "@/components/ui/HeroDoodles";
+import { HeroSearchSpotlight } from "@/components/ui/HeroSearchSpotlight";
 import { SectionDoodles } from "@/components/ui/SectionDoodles";
 import { StatTile } from "@/components/ui/StatTile";
 import { TestimonialCard } from "@/components/ui/TestimonialCard";
@@ -98,20 +99,12 @@ export default function HomePage() {
               </span>
             </Link>
 
-            <div className="flex flex-col gap-[clamp(0.75rem,2vh,1.25rem)] lg:mt-[9vh]">
+            <div className="flex flex-col gap-[clamp(0.75rem,2vh,1.25rem)] lg:mt-[max(14rem,32vh)]">
               <p className="max-w-[34ch] text-lead text-ink-muted">
                 Stream, learn, and level up with hundreds of expert-led courses across
                 design, code, and business.
               </p>
-              <Link
-                href="/search"
-                className="group flex w-full max-w-md animate-search-glow items-center gap-3 rounded-full border-2 border-primary bg-surface px-5 py-[clamp(0.7rem,1.6vh,1rem)] shadow-lg shadow-primary/30 transition-all duration-300 hover:scale-[1.02] hover:shadow-xl"
-              >
-                <Search className="h-5 w-5 shrink-0 text-primary" aria-hidden />
-                <span className="text-lead font-medium text-ink-muted transition-colors group-hover:text-ink">
-                  Search courses, topics, creators…
-                </span>
-              </Link>
+              <HeroSearchSpotlight />
               <div className="flex flex-wrap items-center gap-3">
                 <Button href="/search">Browse courses</Button>
                 <Link
