@@ -23,18 +23,37 @@ const ZONES: Zone[] = [
   { bottom: "4%", right: "3%" },
   { top: "42%", left: "1%" },
   { top: "42%", right: "1%" },
+  { top: "20%", left: "8%" },
+  { top: "20%", right: "8%" },
+  { bottom: "20%", left: "8%" },
+  { bottom: "20%", right: "8%" },
+  { top: "62%", left: "4%" },
+  { top: "62%", right: "4%" },
+  { top: "8%", left: "18%" },
+  { top: "8%", right: "18%" },
+  { bottom: "8%", left: "18%" },
+  { bottom: "8%", right: "18%" },
+  { top: "30%", left: "2%" },
+  { top: "30%", right: "2%" },
+  { bottom: "30%", left: "2%" },
+  { bottom: "30%", right: "2%" },
+  { top: "50%", left: "6%" },
+  { top: "50%", right: "6%" },
+  { top: "70%", left: "10%" },
+  { top: "70%", right: "10%" },
 ];
 
 const DENSITY = {
-  rich: { doodles: 17, rings: 3, marks: 3 },
-  medium: { doodles: 11, rings: 2, marks: 2 },
-  light: { doodles: 6, rings: 1, marks: 1 },
+  rich: { doodles: 32, rings: 5, marks: 6 },
+  medium: { doodles: 26, rings: 4, marks: 5 },
+  light: { doodles: 18, rings: 3, marks: 4 },
 } as const;
 
 const SIZE_TIERS = [
-  { min: 12, max: 19, opacityMin: 0.11, opacityMax: 0.24, weight: 0.4, forceHidden: false },
-  { min: 20, max: 33, opacityMin: 0.08, opacityMax: 0.18, weight: 0.38, forceHidden: false },
-  { min: 34, max: 56, opacityMin: 0.05, opacityMax: 0.11, weight: 0.22, forceHidden: true },
+  { min: 12, max: 19, opacityMin: 0.22, opacityMax: 0.4, weight: 0.34, forceHidden: false },
+  { min: 20, max: 33, opacityMin: 0.18, opacityMax: 0.32, weight: 0.32, forceHidden: false },
+  { min: 34, max: 56, opacityMin: 0.12, opacityMax: 0.22, weight: 0.2, forceHidden: true },
+  { min: 50, max: 84, opacityMin: 0.06, opacityMax: 0.12, weight: 0.14, forceHidden: true },
 ] as const;
 
 function pickSizeTier(rand: () => number) {
@@ -102,7 +121,7 @@ function buildRecipe(seed: number, density: keyof typeof DENSITY) {
       rotate: Math.round((rand() - 0.5) * 80),
       colorClass: TEXT_COLOR_CLASSES[Math.floor(rand() * TEXT_COLOR_CLASSES.length)],
       opacityValue: (tier.opacityMin + rand() * (tier.opacityMax - tier.opacityMin)).toFixed(2),
-      hiddenBelow: tier.forceHidden || rand() < 0.45,
+      hiddenBelow: tier.forceHidden || rand() < 0.2,
     };
   });
 
@@ -110,18 +129,18 @@ function buildRecipe(seed: number, density: keyof typeof DENSITY) {
     ...nextZone(i + 2),
     size: Math.round(12 + rand() * 16),
     colorClass: TEXT_COLOR_CLASSES[Math.floor(rand() * TEXT_COLOR_CLASSES.length)],
-    opacityValue: (0.16 + rand() * 0.2).toFixed(2),
+    opacityValue: (0.3 + rand() * 0.28).toFixed(2),
     dashed: rand() < 0.5,
   }));
 
-  const markVariants: MarkVariant[] = ["squiggle", "scribble", "swirl", "burst"];
+  const markVariants: MarkVariant[] = ["squiggle", "scribble", "swirl", "burst", "dots", "arc"];
   const marks = Array.from({ length: counts.marks }, (_, i) => ({
     variant: markVariants[Math.floor(rand() * markVariants.length)],
     ...nextZone(i + 3),
     size: Math.round(22 + rand() * 18),
     rotate: Math.round((rand() - 0.5) * 40),
     colorClass: TEXT_COLOR_CLASSES[Math.floor(rand() * TEXT_COLOR_CLASSES.length)],
-    opacityValue: (0.14 + rand() * 0.14).toFixed(2),
+    opacityValue: (0.28 + rand() * 0.24).toFixed(2),
   }));
 
   const parallaxRange = 12 + (seed % 5) * 3;

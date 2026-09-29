@@ -47,6 +47,21 @@ import {
   Beaker,
   Glasses,
   Hash,
+  Laptop,
+  School,
+  Library,
+  ScrollText,
+  BookMarked,
+  ClipboardCheck,
+  PencilRuler,
+  Medal,
+  BadgeCheck,
+  Presentation,
+  MonitorPlay,
+  Video,
+  Headphones,
+  Backpack,
+  ListChecks,
   type LucideIcon,
 } from "lucide-react";
 
@@ -113,14 +128,49 @@ export const ICON_POOL: LucideIcon[] = [
   Beaker,
   Glasses,
   Hash,
+  Laptop,
+  School,
+  Library,
+  ScrollText,
+  BookMarked,
+  ClipboardCheck,
+  PencilRuler,
+  Medal,
+  BadgeCheck,
+  Presentation,
+  MonitorPlay,
+  Video,
+  Headphones,
+  Backpack,
+  ListChecks,
 ];
 
 export const TEXT_COLOR_CLASSES = ["text-primary", "text-secondary", "text-soft", "text-ink", "text-ink-muted"];
 
-export type MarkVariant = "squiggle" | "scribble" | "swirl" | "burst";
+export type MarkVariant = "squiggle" | "scribble" | "swirl" | "burst" | "dots" | "arc";
 
 export function MarkShape({ variant }: { variant: MarkVariant }) {
   switch (variant) {
+    case "dots":
+      return (
+        <g fill="currentColor">
+          <circle cx="8" cy="10" r="3" />
+          <circle cx="21" cy="6" r="2.2" />
+          <circle cx="30" cy="18" r="3.4" />
+          <circle cx="14" cy="27" r="2.4" />
+        </g>
+      );
+    case "arc":
+      return (
+        <path
+          d="M4 30C4 15 15 4 30 4"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth={3}
+          strokeLinecap="round"
+          strokeDasharray="1 7"
+        />
+      );
     case "squiggle":
       return (
         <path

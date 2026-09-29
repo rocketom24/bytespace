@@ -5,11 +5,9 @@ import { Slide } from "@/components/layout/Slide";
 import { Container } from "@/components/layout/Container";
 import { Footer } from "@/components/layout/Footer";
 import { Button } from "@/components/ui/Button";
-import { Marquee } from "@/components/ui/Marquee";
 import { RibbonMarquee } from "@/components/ui/RibbonMarquee";
-import { CategoryPill } from "@/components/ui/CategoryPill";
 import { CategoryTile } from "@/components/ui/CategoryTile";
-import { NotchedVideoCard } from "@/components/ui/NotchedVideoCard";
+import { FeaturedCourseCluster } from "@/components/ui/FeaturedCourseCluster";
 import { HeroCardStack } from "@/components/ui/HeroCardStack";
 import { HeroDoodles } from "@/components/ui/HeroDoodles";
 import { HeroSearchSpotlight } from "@/components/ui/HeroSearchSpotlight";
@@ -20,7 +18,6 @@ import { courses } from "@/data/courses";
 import { categories } from "@/data/categories";
 import { stats } from "@/data/stats";
 import { testimonials } from "@/data/testimonials";
-import { getCreatorById } from "@/lib/creators";
 
 const creatorBenefits = [
   "Keep 85% of every sale, no hidden fees",
@@ -122,42 +119,17 @@ export default function HomePage() {
       <Slide
         label="Featured courses"
         depth={1.1}
-        backdrop={<SectionDoodles seed={2} density="rich" />}
+        backdrop={<SectionDoodles seed={2} density="medium" />}
       >
-        <Container width="wide" className="relative z-10 flex flex-col gap-[var(--block)]">
-          <div className="flex flex-col gap-3">
-            <h2 className="max-w-[22ch] text-title font-bold text-ink">
-              Featured learning, organized your way
-            </h2>
-            <p className="max-w-[60ch] text-lead text-ink-muted">
-              Every course is grouped so you can go straight to what moves your career
-              forward.
-            </p>
-          </div>
-
-          <Marquee>
-            {categories.map((category) => (
-              <CategoryPill key={category.id} category={category} />
-            ))}
-          </Marquee>
-
-          <div className="grid grid-cols-[repeat(auto-fit,minmax(min(100%,14rem),15rem))] max-w-[min(100%,68rem)] gap-[clamp(0.6rem,1.2vw,1.1rem)]">
-            {courses.map((course) => (
-              <NotchedVideoCard
-                key={course.id}
-                course={course}
-                creator={getCreatorById(course.creatorId)}
-                compact
-              />
-            ))}
-          </div>
+        <Container width="wide" className="relative z-10 flex h-full flex-col">
+          <FeaturedCourseCluster courses={courses} />
         </Container>
       </Slide>
 
       <Slide
         label="Learning paths"
         depth={0.9}
-        backdrop={<SectionDoodles seed={3} density="medium" />}
+        backdrop={<SectionDoodles seed={3} density="rich" />}
       >
         <Container width="wide" className="relative z-10 flex flex-col gap-[var(--block)]">
           <div className="flex flex-col gap-3">
@@ -197,7 +169,7 @@ export default function HomePage() {
         id="creators"
         label="For creators"
         depth={1}
-        backdrop={<SectionDoodles seed={4} density="medium" />}
+        backdrop={<SectionDoodles seed={4} density="rich" />}
       >
         <Container className="relative z-10 flex flex-col gap-[var(--block)]">
           <div className="flex flex-col gap-3">
@@ -245,7 +217,7 @@ export default function HomePage() {
       <Slide
         label="Learner stories"
         depth={1.1}
-        backdrop={<SectionDoodles seed={5} density="medium" />}
+        backdrop={<SectionDoodles seed={5} density="rich" />}
       >
         <Container width="wide" className="relative z-10 flex flex-col gap-[var(--block)]">
           <div className="flex flex-col gap-3">
@@ -265,7 +237,7 @@ export default function HomePage() {
       <Slide
         label="Stay in the loop"
         depth={0.7}
-        backdrop={<SectionDoodles seed={6} density="light" />}
+        backdrop={<SectionDoodles seed={6} density="medium" />}
       >
         <Container width="wide" className="relative z-10">
           <Footer />

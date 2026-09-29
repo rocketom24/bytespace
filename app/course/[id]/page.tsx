@@ -26,7 +26,7 @@ export default async function CoursePage(props: PageProps<"/course/[id]">) {
       <Slide
         label={course.title}
         depth={0.7}
-        backdrop={<SectionDoodles seed={10} density="medium" />}
+        backdrop={<SectionDoodles seed={10} density="rich" />}
       >
         <Container className="relative z-10 flex flex-col gap-[var(--block)]">
           <div className="flex items-center gap-3">
@@ -56,7 +56,7 @@ export default async function CoursePage(props: PageProps<"/course/[id]">) {
       <Slide
         label="Curriculum"
         depth={1}
-        backdrop={<SectionDoodles seed={11} density="light" />}
+        backdrop={<SectionDoodles seed={11} density="medium" />}
       >
         <Container width="wide" className="relative z-10 flex flex-col gap-[var(--block)]">
           <h2 className="text-title font-bold text-ink">Curriculum</h2>
@@ -80,7 +80,7 @@ export default async function CoursePage(props: PageProps<"/course/[id]">) {
         <Slide
           label="Instructor"
           depth={0.8}
-          backdrop={<SectionDoodles seed={12} density="light" />}
+          backdrop={<SectionDoodles seed={12} density="medium" />}
         >
           <Container className="relative z-10 flex flex-col gap-[var(--block)]">
             <h2 className="text-title font-bold text-ink">Your instructor</h2>
