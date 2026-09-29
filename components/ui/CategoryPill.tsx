@@ -22,7 +22,7 @@ export function CategoryPill({
   return (
     <div
       className={cn(
-        "flex items-center gap-2 whitespace-nowrap rounded-full border border-ink/10 bg-surface px-5 py-2.5 text-sm font-medium text-ink",
+        "flex items-center gap-2 whitespace-nowrap rounded-full border border-ink/10 bg-surface px-[clamp(0.9rem,1.1vw,1.35rem)] py-[clamp(0.45rem,1vh,0.7rem)] text-meta font-medium text-ink",
         className
       )}
     >

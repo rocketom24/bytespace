@@ -25,12 +25,12 @@ export function StatTile({ stat }: { stat: PlatformStat }) {
 
   return (
     <div ref={ref} className="flex flex-col gap-1">
-      <p className="text-4xl font-bold text-ink lg:text-5xl">
+      <p className="text-title font-bold text-ink">
         {stat.prefix}
         {display}
         {stat.suffix}
       </p>
-      <p className="text-sm text-ink-muted">{stat.label}</p>
+      <p className="text-meta text-ink-muted">{stat.label}</p>
     </div>
   );
 }

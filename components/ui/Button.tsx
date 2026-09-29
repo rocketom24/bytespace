@@ -24,7 +24,7 @@ export function Button({
   ...props
 }: ButtonProps) {
   const classes = cn(
-    "inline-flex items-center justify-center gap-2 rounded-full px-6 py-3 text-sm font-semibold transition-colors",
+    "inline-flex items-center justify-center gap-2 rounded-full px-[clamp(1.15rem,1.3vw,1.75rem)] py-[clamp(0.6rem,1.2vh,0.85rem)] text-meta font-semibold transition-colors duration-300",
     variantClasses[variant],
     className
   );

@@ -4,6 +4,7 @@ import { Slide } from "@/components/layout/Slide";
 import { Container } from "@/components/layout/Container";
 import { Badge } from "@/components/ui/Badge";
 import { CreatorCard } from "@/components/ui/CreatorCard";
+import { SectionDoodles } from "@/components/ui/SectionDoodles";
 import { getCourseById } from "@/lib/courses";
 import { getCreatorById } from "@/lib/creators";
 import { getLessonsByCourseId } from "@/lib/lessons";
@@ -21,36 +22,44 @@ export default async function CoursePage(props: PageProps<"/course/[id]">) {
 
   return (
     <ScrollTrack>
-      <Slide>
-        <Container className="flex flex-col gap-6">
+      <Slide
+        label={course.title}
+        depth={0.7}
+        backdrop={<SectionDoodles seed={10} density="medium" />}
+      >
+        <Container className="relative z-10 flex flex-col gap-[var(--block)]">
           <div className="flex gap-2">
             <Badge>{course.category}</Badge>
             <Badge>{course.level}</Badge>
           </div>
-          <h1 className="max-w-2xl text-4xl font-bold text-ink lg:text-5xl">
+          <h1 className="max-w-[20ch] text-display font-bold text-ink">
             {course.title}
           </h1>
-          <p className="max-w-xl text-lg text-ink-muted">{course.summary}</p>
-          <p className="text-sm text-ink-muted">
+          <p className="max-w-[55ch] text-lead text-ink-muted">{course.summary}</p>
+          <p className="text-meta text-ink-muted">
             {course.lessonCount} lessons · {Math.round(course.durationMinutes / 60)}h ·{" "}
             {course.studentCount.toLocaleString()} students · {course.rating}/5
           </p>
         </Container>
       </Slide>
 
-      <Slide>
-        <Container className="flex flex-col gap-6">
-          <h2 className="text-2xl font-bold text-ink">Curriculum</h2>
-          <ol className="flex flex-col gap-3">
+      <Slide
+        label="Curriculum"
+        depth={1}
+        backdrop={<SectionDoodles seed={11} density="light" />}
+      >
+        <Container width="wide" className="relative z-10 flex flex-col gap-[var(--block)]">
+          <h2 className="text-title font-bold text-ink">Curriculum</h2>
+          <ol className="grid gap-2 sm:grid-cols-2 lg:grid-cols-3">
             {lessons.map((lesson) => (
               <li
                 key={lesson.id}
-                className="flex items-center justify-between rounded-2xl bg-surface px-5 py-4 text-sm text-ink"
+                className="flex h-full items-center justify-between gap-3 rounded-2xl bg-surface px-[clamp(1rem,1.4vw,1.5rem)] py-[clamp(0.6rem,1.4vh,1rem)] text-meta text-ink"
               >
                 <span>
                   {lesson.order}. {lesson.title}
                 </span>
-                <span className="text-ink-muted">{lesson.durationMinutes} min</span>
+                <span className="shrink-0 text-ink-muted">{lesson.durationMinutes} min</span>
               </li>
             ))}
           </ol>
@@ -58,9 +67,13 @@ export default async function CoursePage(props: PageProps<"/course/[id]">) {
       </Slide>
 
       {creator && (
-        <Slide>
-          <Container className="flex flex-col gap-6">
-            <h2 className="text-2xl font-bold text-ink">Your instructor</h2>
+        <Slide
+          label="Instructor"
+          depth={0.8}
+          backdrop={<SectionDoodles seed={12} density="light" />}
+        >
+          <Container className="relative z-10 flex flex-col gap-[var(--block)]">
+            <h2 className="text-title font-bold text-ink">Your instructor</h2>
             <div className="max-w-sm">
               <CreatorCard creator={creator} />
             </div>
