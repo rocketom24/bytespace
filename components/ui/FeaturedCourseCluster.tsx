@@ -25,7 +25,7 @@ const X_STEP_PCT = 44;
 const Y_STEP_PCT = 12;
 const ANGLE_STEP_DEG = 9;
 const SCALE_STEP = 0.06;
-const CARD_WIDTH = "clamp(13rem,27vw,23rem)";
+const CARD_WIDTH = "clamp(11rem,22vw,19rem)";
 const REORDER_SPRING = { type: "spring", stiffness: 260, damping: 30, mass: 0.9 } as const;
 
 function signedOffset(index: number, frontIndex: number, count: number) {
@@ -80,6 +80,47 @@ function DeckCard({
   );
 }
 
+const EXPLORE_CATEGORIES = [
+  "Web Development",
+  "Data Science",
+  "Design",
+  "Business",
+  "Productivity",
+  "Creative Arts",
+  "Cooking",
+];
+
+function ExploreMore({ reduceMotion }: { reduceMotion: boolean }) {
+  return (
+    <motion.div
+      className="mt-[clamp(1rem,3vh,1.75rem)] flex max-w-md flex-col items-center gap-[clamp(0.6rem,1.5vh,0.9rem)] text-center"
+      initial={reduceMotion ? false : { opacity: 0, y: 14 }}
+      whileInView={reduceMotion ? undefined : { opacity: 1, y: 0 }}
+      viewport={{ once: true, amount: 0.4 }}
+      transition={reduceMotion ? { duration: 0 } : { duration: 0.6, ease: "easeOut", delay: 0.1 }}
+    >
+      <p className="text-meta leading-relaxed text-ink-muted">
+        <span className="font-semibold text-ink">There&apos;s always more to learn.</span>{" "}
+        Explore thousands of courses across technology, creativity, business, and everyday life —
+        from practical skills to ideas that can change your career and the way you see the world.
+      </p>
+      <div className="flex flex-wrap items-center justify-center gap-x-2 gap-y-1.5 text-micro text-ink-muted">
+        {EXPLORE_CATEGORIES.map((label) => (
+          <span key={label} className="rounded-full border border-ink/10 px-2.5 py-1">
+            {label}
+          </span>
+        ))}
+        <Link
+          href="/courses"
+          className="px-2.5 py-1 italic text-ink-muted/70 underline-offset-2 transition-colors hover:text-primary hover:underline"
+        >
+          + More
+        </Link>
+      </div>
+    </motion.div>
+  );
+}
+
 function SeeMoreLink() {
   return (
     <Link href="/courses" className="group flex w-fit items-center gap-5 sm:gap-6">
@@ -105,8 +146,8 @@ export function FeaturedCourseCluster({ courses }: { courses: Course[] }) {
 
   return (
     <div className="flex h-full flex-col items-center">
-      <div className="flex w-full flex-1 items-center justify-center pt-[clamp(1.5rem,4vh,3rem)]">
-        <div className="relative h-[clamp(32rem,60vh,38rem)] w-full max-w-5xl">
+      <div className="flex w-full flex-1 items-center justify-center pt-[clamp(1rem,3vh,2rem)]">
+        <div className="relative h-[clamp(25rem,48vh,31rem)] w-full max-w-5xl">
           {courses.map((course, index) => (
             <DeckCard
               key={course.id}
@@ -120,8 +161,9 @@ export function FeaturedCourseCluster({ courses }: { courses: Course[] }) {
         </div>
       </div>
 
-      <div className="-mt-[clamp(3rem,8vh,6rem)] pb-[clamp(1.5rem,4vh,3rem)]">
+      <div className="-mt-[clamp(5rem,11vh,8rem)] flex flex-col items-center pb-[clamp(1.5rem,4vh,3rem)]">
         <SeeMoreLink />
+        <ExploreMore reduceMotion={reduceMotion} />
       </div>
     </div>
   );

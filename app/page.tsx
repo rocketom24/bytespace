@@ -39,7 +39,8 @@ export default function HomePage() {
             <HeroDoodles />
             <RibbonMarquee
               items={categories.map((category) => category.name)}
-              className="pointer-events-none absolute inset-x-[-10%] top-1/2 z-0 hidden h-[22dvh] max-h-40 min-h-24 w-[120%] -translate-y-1/2 -rotate-6 lg:block"
+              className="pointer-events-none absolute inset-x-0 top-1/2 z-0 hidden h-[22dvh] max-h-40 min-h-24 w-full -translate-y-1/2 lg:block"
+              rotateClassName="-rotate-6 scale-125"
             />
           </>
         }
