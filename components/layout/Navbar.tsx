@@ -8,6 +8,7 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import { EASE_OUT, panelVariants } from "@/lib/motion";
 import { useHomeNavProgress } from "@/components/layout/HomeNavProgress";
 import { useNavHidden } from "@/components/layout/NavVisibility";
+import { scrollHomeToStart } from "@/lib/homeScroll";
 
 const links = [
   { href: "/", label: "Home" },
@@ -56,6 +57,10 @@ function CompactNavbar({ reduceMotion }: { reduceMotion: boolean }) {
   const [open, setOpen] = useState(false);
   const close = useCallback(() => setOpen(false), []);
   const containerRef = useDropdownDismiss(open, close);
+  const pathname = usePathname();
+  const onLogoClick = () => {
+    if (pathname === "/") scrollHomeToStart();
+  };
 
   return (
     <motion.header
@@ -68,6 +73,7 @@ function CompactNavbar({ reduceMotion }: { reduceMotion: boolean }) {
       <motion.div layoutId="nav-logo" layout="position" transition={shellTransition(reduceMotion)}>
         <Link
           href="/"
+          onClick={onLogoClick}
           className="inline-flex items-center gap-1 text-lg font-bold tracking-tight text-ink transition-colors hover:text-accent"
         >
           ByteSpace
@@ -169,6 +175,9 @@ function FullNavbar({ reduceMotion }: { reduceMotion: boolean }) {
         <motion.div layoutId="nav-logo" layout="position" transition={shellTransition(reduceMotion)}>
           <Link
             href="/"
+            onClick={() => {
+              if (pathname === "/") scrollHomeToStart();
+            }}
             className="inline-flex items-center gap-1 text-lg font-bold tracking-tight text-background transition-colors hover:text-secondary"
           >
             ByteSpace

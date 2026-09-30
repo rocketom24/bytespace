@@ -207,7 +207,7 @@ export function FeaturedCourseCluster({ courses }: { courses: Course[] }) {
         </div>
       </div>
 
-      <div className="-mt-[clamp(5rem,11vh,8rem)] flex flex-col items-center pb-[clamp(1.5rem,4vh,3rem)]">
+      <div className="-mt-[clamp(2rem,5vh,4rem)] flex flex-col items-center pb-[clamp(1.5rem,4vh,3rem)]">
         <SeeMoreLink />
         <ExploreMore reduceMotion={reduceMotion} />
       </div>

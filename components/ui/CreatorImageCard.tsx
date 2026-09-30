@@ -53,7 +53,7 @@ export function CreatorImageCard({
 
   return (
     <div className={cn("flex flex-col items-center gap-3 text-center", className)}>
-      <div className="relative w-full max-w-[10.5rem]">
+      <div className="relative w-full max-w-36">
         <svg viewBox="0 0 100 100" className="aspect-square w-full rounded-full" aria-hidden>
           <defs>
             <radialGradient

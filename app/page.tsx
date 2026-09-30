@@ -236,8 +236,8 @@ export default function HomePage() {
         pinSpan={CREATOR_SHOWCASE_PIN_SPAN}
         backdrop={<SectionDoodles seed={4} density="rich" />}
       >
-        <Container width="wide" className="relative z-10 flex flex-col gap-[var(--block)]">
-          <div className="mx-auto flex flex-col items-center gap-3 text-center">
+        <Container width="wide" className="relative z-10 flex flex-col gap-[clamp(0.75rem,1.8vh,1.5rem)]">
+          <div className="mx-auto flex flex-col items-center gap-2 text-center">
             <span className="text-micro font-semibold uppercase tracking-wide text-accent">
               For creators
             </span>
