@@ -11,12 +11,13 @@ import { RibbonMarquee } from "@/components/ui/RibbonMarquee";
 import { PathDeck } from "@/components/ui/PathDeck";
 import { CourseList } from "@/components/ui/CourseList";
 import { FeaturedCourseCluster, FEATURED_COURSES_PIN_SPAN } from "@/components/ui/FeaturedCourseCluster";
+import { CreatorShowcase, CREATOR_SHOWCASE_PIN_SPAN } from "@/components/ui/CreatorShowcase";
 import { HeroCardStack } from "@/components/ui/HeroCardStack";
 import { HeroDoodles } from "@/components/ui/HeroDoodles";
 import { HeroSearchSpotlight } from "@/components/ui/HeroSearchSpotlight";
 import { SectionDoodles } from "@/components/ui/SectionDoodles";
 import { StatTile } from "@/components/ui/StatTile";
-import { TestimonialCard } from "@/components/ui/TestimonialCard";
+import { TestimonialsColumn } from "@/components/ui/testimonials-columns-1";
 import { courses } from "@/data/courses";
 import { categories } from "@/data/categories";
 import { creators } from "@/data/creators";
@@ -30,8 +31,6 @@ const creatorBenefits = [
   "Built-in audience of 52,000+ active learners",
   "Simple dashboard, weekly payouts",
 ];
-
-const payoutBars = [40, 65, 50, 80, 95, 70, 85];
 
 export default function HomePage() {
   return (
@@ -210,7 +209,7 @@ export default function HomePage() {
         backdrop={<SectionDoodles seed={3} density="rich" accentWeight={0.4} />}
       >
         <Container width="wide" className="relative z-10 flex flex-col gap-[var(--block)]">
-          <div className="flex flex-col gap-3">
+          <div className="mx-auto flex max-w-xl flex-col items-center gap-3 text-center">
             <h2 className="text-title font-bold text-ink">Pick a path, keep momentum</h2>
             <p className="max-w-[60ch] text-lead text-ink-muted">
               Start with a category, then move straight into courses built for the next
@@ -231,32 +230,36 @@ export default function HomePage() {
         id="creators"
         label="For creators"
         depth={1}
-        pinSpan={DEFAULT_PIN_SPAN}
+        pinSpan={CREATOR_SHOWCASE_PIN_SPAN}
         backdrop={<SectionDoodles seed={4} density="rich" />}
       >
-        <Container className="relative z-10 flex flex-col gap-[var(--block)]">
-          <div className="flex flex-col gap-3">
-            <h2 className="max-w-[24ch] text-title font-bold text-ink">
-              Built on a platform that keeps growing
+        <Container width="wide" className="relative z-10 flex flex-col gap-[var(--block)]">
+          <div className="mx-auto flex flex-col items-center gap-3 text-center">
+            <span className="text-micro font-semibold uppercase tracking-wide text-accent">
+              For creators
+            </span>
+            <h2 className="max-w-[26ch] text-title font-bold text-ink">
+              Every course starts with one person who knows the thing
             </h2>
+            <p className="max-w-[54ch] text-lead text-ink-muted">
+              Educators, engineers, designers, builders — ByteSpace gives them the audience,
+              the tools, and the payouts to turn what they know into a course people finish.
+            </p>
+            <Button
+              className="w-fit gap-2 shadow-lg shadow-accent/30 hover:-translate-y-0.5 hover:scale-[1.03] hover:shadow-xl"
+            >
+              Join as a creator
+              <ArrowRight className="h-4 w-4" aria-hidden />
+            </Button>
           </div>
 
-          <div className="grid gap-[clamp(1rem,2.4vw,2.5rem)] lg:grid-cols-2">
-            <div className="flex flex-col gap-[var(--block)]">
-              <div className="grid grid-cols-2 gap-[clamp(0.75rem,1.6vw,1.5rem)]">
-                {stats.map((stat) => (
-                  <StatTile key={stat.id} stat={stat} />
-                ))}
-              </div>
-              <div className="flex h-[clamp(6rem,18vh,10rem)] items-end gap-[clamp(0.4rem,0.8vw,0.75rem)] rounded-3xl bg-surface p-[clamp(1rem,1.6vh+0.6vw,1.5rem)]">
-                {payoutBars.map((height, index) => (
-                  <div
-                    key={index}
-                    className="w-full max-w-6 rounded-full bg-primary/70"
-                    style={{ height: `${height}%` }}
-                  />
-                ))}
-              </div>
+          <CreatorShowcase />
+
+          <div className="mx-auto grid w-full max-w-4xl gap-[clamp(1rem,2.4vw,2.5rem)] lg:grid-cols-2">
+            <div className="grid grid-cols-2 gap-[clamp(0.75rem,1.6vw,1.5rem)]">
+              {stats.map((stat) => (
+                <StatTile key={stat.id} stat={stat} />
+              ))}
             </div>
 
             <div className="flex flex-col gap-[clamp(0.75rem,2vh,1.5rem)]">
@@ -271,7 +274,6 @@ export default function HomePage() {
                   </li>
                 ))}
               </ul>
-              <Button className="w-fit">Join as a creator</Button>
             </div>
           </div>
         </Container>
@@ -284,16 +286,26 @@ export default function HomePage() {
         backdrop={<SectionDoodles seed={5} density="rich" />}
       >
         <Container width="wide" className="relative z-10 flex flex-col gap-[var(--block)]">
-          <div className="flex flex-col gap-3">
+          <div className="mx-auto flex max-w-xl flex-col items-center gap-3 text-center">
             <h2 className="text-title font-bold text-ink">Loved by learners and creators</h2>
             <p className="text-lead text-ink-muted">
               Join {stats[0].value.toLocaleString()}+ people already building real skills.
             </p>
           </div>
-          <div className="grid grid-cols-[repeat(auto-fit,minmax(min(100%,17rem),1fr))] max-w-[min(100%,68rem)] gap-[clamp(0.75rem,1.6vw,1.5rem)]">
-            {testimonials.map((testimonial) => (
-              <TestimonialCard key={testimonial.id} testimonial={testimonial} />
-            ))}
+          <div
+            className="flex max-h-[clamp(20rem,54vh,40rem)] justify-center gap-[clamp(0.75rem,1.6vw,1.5rem)] overflow-hidden mask-[linear-gradient(to_bottom,transparent,black_12%,black_88%,transparent)]"
+          >
+            <TestimonialsColumn testimonials={testimonials.slice(0, 3)} duration={16} />
+            <TestimonialsColumn
+              testimonials={testimonials.slice(3, 6)}
+              duration={20}
+              className="hidden sm:block"
+            />
+            <TestimonialsColumn
+              testimonials={testimonials.slice(6, 9)}
+              duration={18}
+              className="hidden lg:block"
+            />
           </div>
         </Container>
       </Slide>
