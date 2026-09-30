@@ -8,15 +8,27 @@ import { cn } from "@/lib/cn";
 const MAX_PUPIL_X = 4.5;
 const MAX_PUPIL_Y = 3.5;
 
+const SIZE_CLASSES = {
+  default: "w-[clamp(4.5rem,6vw,6.5rem)]",
+  lg: "w-[clamp(7rem,11vw,11rem)]",
+  xl: "w-[clamp(10rem,16vw,15rem)]",
+};
+
 export function CatMascot({
   className,
   bubble = "Meow! Let's find your course.",
+  expression = "curious",
+  size = "default",
 }: {
   className?: string;
   bubble?: string;
+  /** "dizzy" swaps the pupils for crossed-out eyes and stops cursor tracking, for error states. */
+  expression?: "curious" | "dizzy";
+  size?: keyof typeof SIZE_CLASSES;
 }) {
   const wrapperRef = useRef<HTMLDivElement>(null);
   const reduceMotion = useReducedMotionSafe();
+  const dizzy = expression === "dizzy";
 
   const pupilX = useMotionValue(0);
   const pupilY = useMotionValue(0);
@@ -24,7 +36,7 @@ export function CatMascot({
   const smoothY = useSpring(pupilY, { stiffness: 180, damping: 16, mass: 0.6 });
 
   useEffect(() => {
-    if (reduceMotion) return;
+    if (reduceMotion || dizzy) return;
 
     const onPointerMove = (event: PointerEvent) => {
       const rect = wrapperRef.current?.getBoundingClientRect();
@@ -41,7 +53,7 @@ export function CatMascot({
 
     window.addEventListener("pointermove", onPointerMove, { passive: true });
     return () => window.removeEventListener("pointermove", onPointerMove);
-  }, [reduceMotion, pupilX, pupilY]);
+  }, [reduceMotion, dizzy, pupilX, pupilY]);
 
   return (
     <div ref={wrapperRef} className={cn("relative flex shrink-0 flex-col items-center", className)}>
@@ -61,7 +73,7 @@ export function CatMascot({
       <motion.div
         animate={reduceMotion ? undefined : { y: [0, -4, 0] }}
         transition={reduceMotion ? undefined : { duration: 3.4, repeat: Infinity, ease: "easeInOut" }}
-        className="relative z-0 w-[clamp(4.5rem,6vw,6.5rem)]"
+        className={cn("relative z-0", SIZE_CLASSES[size])}
       >
         <svg viewBox="0 0 220 190" className="w-full drop-shadow-lg" aria-hidden>
           <motion.ellipse
@@ -121,8 +133,17 @@ export function CatMascot({
           >
             <ellipse cx="86" cy="117" rx="14" ry="21" fill="var(--surface)" />
             <ellipse cx="134" cy="117" rx="14" ry="21" fill="var(--surface)" />
-            <motion.circle cx="86" cy="120" r="6" fill="var(--ink)" style={{ x: smoothX, y: smoothY }} />
-            <motion.circle cx="134" cy="120" r="6" fill="var(--ink)" style={{ x: smoothX, y: smoothY }} />
+            {dizzy ? (
+              <g stroke="var(--ink)" strokeWidth={3.5} strokeLinecap="round">
+                <path d="M80,113 L92,127 M92,113 L80,127" />
+                <path d="M128,113 L140,127 M140,113 L128,127" />
+              </g>
+            ) : (
+              <>
+                <motion.circle cx="86" cy="120" r="6" fill="var(--ink)" style={{ x: smoothX, y: smoothY }} />
+                <motion.circle cx="134" cy="120" r="6" fill="var(--ink)" style={{ x: smoothX, y: smoothY }} />
+              </>
+            )}
           </motion.g>
         </svg>
       </motion.div>

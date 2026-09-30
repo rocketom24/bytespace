@@ -4,6 +4,7 @@ import { ScrollTrack } from "@/components/scroll/ScrollTrack";
 import { Slide, DEFAULT_PIN_SPAN } from "@/components/layout/Slide";
 import { Container } from "@/components/layout/Container";
 import { SectionDoodles } from "@/components/ui/SectionDoodles";
+import { CourseVideoPlayer } from "@/components/course/CourseVideoPlayer";
 import { getLessonById, getLessonsByCourseId } from "@/lib/lessons";
 import { getCourseById } from "@/lib/courses";
 
@@ -36,8 +37,14 @@ export default async function LessonPage(props: PageProps<"/lesson/[id]">) {
             </Link>
           )}
           <h1 className="max-w-[20ch] text-display font-bold text-ink">{lesson.title}</h1>
-          <div className="flex h-[clamp(11rem,38vh,22rem)] w-full items-center justify-center rounded-3xl bg-ink text-meta text-background">
-            Lesson player placeholder
+          <div className="h-[clamp(11rem,38vh,22rem)] w-full">
+            {course ? (
+              <CourseVideoPlayer course={course} currentLesson={lesson} />
+            ) : (
+              <div className="flex h-full w-full items-center justify-center rounded-3xl bg-ink text-meta text-background">
+                Video unavailable
+              </div>
+            )}
           </div>
           <p className="text-meta text-ink-muted">{lesson.durationMinutes} min</p>
         </Container>

@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 import localFont from "next/font/local";
 import { Navbar } from "@/components/layout/Navbar";
+import { HomeNavProgressProvider } from "@/components/layout/HomeNavProgress";
+import { NavVisibilityProvider } from "@/components/layout/NavVisibility";
 import "./globals.css";
 
 const pally = localFont({
@@ -34,8 +36,12 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
     <html lang="en" className={`${pally.variable} h-full`}>
       <body className="min-h-full bg-background font-sans text-ink antialiased">
-        <Navbar />
-        <main>{children}</main>
+        <HomeNavProgressProvider>
+          <NavVisibilityProvider>
+            <Navbar />
+            <main>{children}</main>
+          </NavVisibilityProvider>
+        </HomeNavProgressProvider>
       </body>
     </html>
   );

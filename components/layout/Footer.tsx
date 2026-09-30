@@ -16,14 +16,14 @@ const platformLinks = [
 ];
 
 const companyLinks = [
-  { label: "About", href: "#" },
-  { label: "Help center", href: "#" },
-  { label: "Contact", href: "#" },
+  { label: "About", href: "/about" },
+  { label: "Help center", href: "/help" },
+  { label: "Contact", href: "/contact" },
 ];
 
 const legalLinks = [
-  { label: "Privacy", href: "#" },
-  { label: "Terms", href: "#" },
+  { label: "Privacy", href: "/privacy" },
+  { label: "Terms", href: "/terms" },
 ];
 
 export function Footer() {

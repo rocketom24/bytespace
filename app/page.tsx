@@ -2,6 +2,7 @@ import Link from "next/link";
 import { ArrowRight, ArrowUpRight, CheckCircle2 } from "lucide-react";
 import { ScrollTrack } from "@/components/scroll/ScrollTrack";
 import { Slide, DEFAULT_PIN_SPAN } from "@/components/layout/Slide";
+import { HomeNavSync } from "@/components/layout/HomeNavSync";
 import { Container } from "@/components/layout/Container";
 import { Footer } from "@/components/layout/Footer";
 import { Button } from "@/components/ui/Button";
@@ -203,11 +204,13 @@ export default function HomePage() {
       </Slide>
 
       <Slide
+        id="paths"
         label="Learning paths"
         depth={0.9}
         pinSpan={DEFAULT_PIN_SPAN}
         backdrop={<SectionDoodles seed={3} density="rich" accentWeight={0.4} />}
       >
+        <HomeNavSync />
         <Container width="wide" className="relative z-10 flex flex-col gap-[var(--block)]">
           <div className="mx-auto flex max-w-xl flex-col items-center gap-3 text-center">
             <h2 className="text-title font-bold text-ink">Pick a path, keep momentum</h2>
