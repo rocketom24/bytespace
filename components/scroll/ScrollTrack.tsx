@@ -14,6 +14,7 @@ import Lenis from "lenis";
 import { motion, useMotionValue, useMotionValueEvent, useTransform, type MotionValue } from "framer-motion";
 import { ArrowRight } from "lucide-react";
 import { useReducedMotionSafe } from "@/lib/useReducedMotionSafe";
+import { setHomeScrollToStart } from "@/lib/homeScroll";
 
 type TrackValue = {
   containerRef: RefObject<HTMLDivElement | null>;
@@ -69,6 +70,7 @@ export function ScrollTrack({ children }: { children: React.ReactNode }) {
       : new Lenis({ lerp: 0.075, wheelMultiplier: 0.85, smoothWheel: !reduceMotion });
 
     lenisRef.current = lenis;
+    setHomeScrollToStart(() => lenis.scrollTo(0, { duration: reduceMotion ? 0 : 1.2 }));
 
     const onScroll = ({ progress: value, scroll }: { progress: number; scroll: number }) => {
       progress.set(Number.isFinite(value) ? value : 0);
@@ -86,6 +88,7 @@ export function ScrollTrack({ children }: { children: React.ReactNode }) {
       lenis.off("scroll", onScroll);
       lenis.destroy();
       lenisRef.current = null;
+      setHomeScrollToStart(null);
       progress.set(0);
       position.set(0);
     };

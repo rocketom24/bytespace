@@ -27,9 +27,25 @@ const pally = localFont({
   display: "swap",
 });
 
+const siteUrl = process.env.VERCEL_URL
+  ? `https://${process.env.VERCEL_URL}`
+  : "http://localhost:3000";
+
 export const metadata: Metadata = {
+  metadataBase: new URL(siteUrl),
   title: "ByteSpace",
   description: "Learn to build, one lesson at a time.",
+  openGraph: {
+    title: "ByteSpace",
+    description: "Learn to build, one lesson at a time.",
+    siteName: "ByteSpace",
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "ByteSpace",
+    description: "Learn to build, one lesson at a time.",
+  },
 };
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
