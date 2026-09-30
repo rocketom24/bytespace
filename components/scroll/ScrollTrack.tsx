@@ -59,13 +59,13 @@ export function ScrollTrack({ children }: { children: React.ReactNode }) {
           content,
           orientation: "horizontal",
           gestureOrientation: "both",
-          lerp: 0.075,
-          wheelMultiplier: 1.1,
+          lerp: 0.065,
+          wheelMultiplier: 0.85,
           touchMultiplier: 1.6,
           syncTouch: true,
           smoothWheel: !reduceMotion,
         })
-      : new Lenis({ lerp: 0.1, wheelMultiplier: 1, smoothWheel: !reduceMotion });
+      : new Lenis({ lerp: 0.075, wheelMultiplier: 0.85, smoothWheel: !reduceMotion });
 
     lenisRef.current = lenis;
 
@@ -151,7 +151,7 @@ export function ScrollTrack({ children }: { children: React.ReactNode }) {
   );
 
   useEffect(() => {
-    if (!isDesktop || sections.length === 0) return;
+    if (sections.length === 0) return;
 
     const onKeyDown = (event: KeyboardEvent) => {
       if (event.defaultPrevented || event.altKey || event.ctrlKey || event.metaKey || event.shiftKey) return;

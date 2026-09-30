@@ -1,7 +1,7 @@
 import { notFound } from "next/navigation";
 import { ViewTransition } from "react";
 import { ScrollTrack } from "@/components/scroll/ScrollTrack";
-import { Slide } from "@/components/layout/Slide";
+import { Slide, DEFAULT_PIN_SPAN } from "@/components/layout/Slide";
 import { Container } from "@/components/layout/Container";
 import { Badge } from "@/components/ui/Badge";
 import { CreatorCard } from "@/components/ui/CreatorCard";
@@ -26,6 +26,7 @@ export default async function CoursePage(props: PageProps<"/course/[id]">) {
       <Slide
         label={course.title}
         depth={0.7}
+        pinSpan={DEFAULT_PIN_SPAN}
         backdrop={<SectionDoodles seed={10} density="rich" />}
       >
         <Container className="relative z-10 flex flex-col gap-[var(--block)]">
@@ -56,6 +57,7 @@ export default async function CoursePage(props: PageProps<"/course/[id]">) {
       <Slide
         label="Curriculum"
         depth={1}
+        pinSpan={DEFAULT_PIN_SPAN}
         backdrop={<SectionDoodles seed={11} density="medium" />}
       >
         <Container width="wide" className="relative z-10 flex flex-col gap-[var(--block)]">
@@ -80,6 +82,7 @@ export default async function CoursePage(props: PageProps<"/course/[id]">) {
         <Slide
           label="Instructor"
           depth={0.8}
+          pinSpan={DEFAULT_PIN_SPAN}
           backdrop={<SectionDoodles seed={12} density="medium" />}
         >
           <Container className="relative z-10 flex flex-col gap-[var(--block)]">

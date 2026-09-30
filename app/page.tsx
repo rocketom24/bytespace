@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { ArrowUpRight, Asterisk, CheckCircle2 } from "lucide-react";
 import { ScrollTrack } from "@/components/scroll/ScrollTrack";
-import { Slide } from "@/components/layout/Slide";
+import { Slide, DEFAULT_PIN_SPAN } from "@/components/layout/Slide";
 import { Container } from "@/components/layout/Container";
 import { Footer } from "@/components/layout/Footer";
 import { Button } from "@/components/ui/Button";
@@ -34,6 +34,7 @@ export default function HomePage() {
       <Slide
         label="Home"
         depth={0.6}
+        pinSpan={DEFAULT_PIN_SPAN}
         className="items-center"
         backdrop={
           <>
@@ -132,6 +133,7 @@ export default function HomePage() {
       <Slide
         label="Learning paths"
         depth={0.9}
+        pinSpan={DEFAULT_PIN_SPAN}
         backdrop={<SectionDoodles seed={3} density="rich" />}
       >
         <Container width="wide" className="relative z-10 flex flex-col gap-[var(--block)]">
@@ -156,6 +158,7 @@ export default function HomePage() {
         id="creators"
         label="For creators"
         depth={1}
+        pinSpan={DEFAULT_PIN_SPAN}
         backdrop={<SectionDoodles seed={4} density="rich" />}
       >
         <Container className="relative z-10 flex flex-col gap-[var(--block)]">
@@ -204,6 +207,7 @@ export default function HomePage() {
       <Slide
         label="Learner stories"
         depth={1.1}
+        pinSpan={DEFAULT_PIN_SPAN}
         backdrop={<SectionDoodles seed={5} density="rich" />}
       >
         <Container width="wide" className="relative z-10 flex flex-col gap-[var(--block)]">

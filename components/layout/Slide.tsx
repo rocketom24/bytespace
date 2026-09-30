@@ -12,6 +12,11 @@ export function useSlideProgress() {
   return useContext(SlideProgressContext);
 }
 
+// Default scroll dwell for non-pinned content slides: widens a slide's
+// footprint (horizontal on desktop, vertical on mobile) so one scroll
+// gesture settles into it instead of skipping straight through.
+export const DEFAULT_PIN_SPAN = 1.4;
+
 // Window (as a fraction of the slide's own 0->1 progress) during which the
 // slide sits fully settled - opacity 1, no drift. Widening `pinSpan` stretches
 // the slide's scroll footprint (extra vw on desktop / dvh on mobile) while a
@@ -36,6 +41,7 @@ export function Slide({
   label,
   depth = 1,
   pinSpan = 1,
+  mobilePinSpan = pinSpan,
 }: {
   children: React.ReactNode;
   backdrop?: React.ReactNode;
@@ -44,8 +50,10 @@ export function Slide({
   id?: string;
   label?: string;
   depth?: number;
-  /** Extra viewport-widths (desktop) / heights (mobile) of scroll to hold this slide pinned. */
+  /** Extra viewport-widths of scroll (desktop) to hold this slide pinned/settled before it transitions out. */
   pinSpan?: number;
+  /** Same, but for the mobile (viewport-heights) track. Defaults to `pinSpan`. */
+  mobilePinSpan?: number;
 }) {
   const ref = useRef<HTMLElement>(null);
   const metrics = useRef({ start: 0, length: 1, viewport: 1 });
@@ -54,7 +62,8 @@ export function Slide({
   const isDesktop = track?.isDesktop ?? false;
   const position = track?.position;
   const progress = useMotionValue(0.5);
-  const isPinned = pinSpan > 1 && !reduceMotion;
+  const span = isDesktop ? pinSpan : mobilePinSpan;
+  const isPinned = span > 1 && !reduceMotion;
 
   const sync = useCallback(() => {
     const element = ref.current;
@@ -91,7 +100,7 @@ export function Slide({
     progress.set(Math.min(1, Math.max(0, value)));
   });
 
-  const { enter, exitStart } = getPinWindow(isPinned ? pinSpan : 1);
+  const { enter, exitStart } = getPinWindow(isPinned ? span : 1);
   const shift = 110 * depth;
   const xInput = isPinned ? [0, enter, exitStart, 1] : [0, 0.5, 1];
   const x = useTransform(progress, xInput, isPinned ? [shift, 0, 0, -shift] : [shift, 0, -shift]);
@@ -111,8 +120,8 @@ export function Slide({
 
   const outerStyle: React.CSSProperties | undefined = isPinned
     ? isDesktop
-      ? { width: `${pinSpan * 100}vw` }
-      : { height: `${pinSpan * 100}dvh` }
+      ? { width: `${span * 100}vw` }
+      : { height: `${span * 100}dvh` }
     : undefined;
 
   return (

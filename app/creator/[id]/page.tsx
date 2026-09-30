@@ -1,7 +1,7 @@
 import { notFound } from "next/navigation";
 import { ViewTransition } from "react";
 import { ScrollTrack } from "@/components/scroll/ScrollTrack";
-import { Slide } from "@/components/layout/Slide";
+import { Slide, DEFAULT_PIN_SPAN } from "@/components/layout/Slide";
 import { Container } from "@/components/layout/Container";
 import { NotchedVideoCard } from "@/components/ui/NotchedVideoCard";
 import { SectionDoodles } from "@/components/ui/SectionDoodles";
@@ -23,6 +23,7 @@ export default async function CreatorPage(props: PageProps<"/creator/[id]">) {
       <Slide
         label={creator.name}
         depth={0.7}
+        pinSpan={DEFAULT_PIN_SPAN}
         backdrop={<SectionDoodles seed={15} density="medium" />}
       >
         <Container className="relative z-10 flex flex-col gap-[clamp(0.6rem,1.6vh,1rem)]">
@@ -38,6 +39,7 @@ export default async function CreatorPage(props: PageProps<"/creator/[id]">) {
       <Slide
         label="Courses"
         depth={1}
+        pinSpan={DEFAULT_PIN_SPAN}
         backdrop={<SectionDoodles seed={16} density="light" />}
       >
         <Container width="wide" className="relative z-10 flex flex-col gap-[var(--block)]">
