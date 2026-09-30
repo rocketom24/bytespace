@@ -167,7 +167,7 @@ function SeeMoreLink() {
         See More Courses
       </h2>
       <span className="relative h-10 w-10 shrink-0 sm:h-14 sm:w-14">
-        <span className="absolute inset-0 flex items-center justify-center rounded-full bg-primary text-background shadow-md shadow-ink/15 transition-[opacity,transform,border-radius] duration-500 ease-out group-hover:scale-[0.2] group-hover:rotate-120 group-hover:rounded-[38%] group-hover:opacity-0">
+        <span className="absolute inset-0 flex items-center justify-center rounded-full bg-accent text-background shadow-md shadow-ink/15 transition-[opacity,transform,border-radius] duration-500 ease-out group-hover:scale-[0.2] group-hover:rotate-120 group-hover:rounded-[38%] group-hover:opacity-0">
           <ArrowUpRight className="h-4.5 w-4.5 rotate-45 transition-transform duration-500 ease-out group-hover:rotate-90 sm:h-7 sm:w-7" aria-hidden />
         </span>
         <span className="absolute inset-0 flex scale-[0.2] rotate-[-120deg] items-center justify-center rounded-[38%] bg-ink text-background opacity-0 shadow-md shadow-ink/15 transition-[opacity,transform,border-radius] duration-500 ease-out group-hover:scale-100 group-hover:rotate-0 group-hover:rounded-full group-hover:opacity-100">

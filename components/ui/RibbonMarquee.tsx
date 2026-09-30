@@ -1,6 +1,4 @@
-const PATH_ID = "ribbon-path";
-const WAVE_D =
-  "M0 120C180 85 360 85 500 120C700 150 820 150 960 120C1140 85 1300 85 1440 105";
+import { cn } from "@/lib/cn";
 
 export function RibbonMarquee({
   items,
@@ -11,54 +9,30 @@ export function RibbonMarquee({
   className?: string;
   rotateClassName?: string;
 }) {
-  const text = `${items.join(" · ")} · `.repeat(8);
+  const text = `${items.join("   ·   ")}   ·   `.repeat(4);
 
-  // Mask + overflow live on this unrotated wrapper so the fade always lines up
-  // with the real (screen-aligned) edges, even though the ribbon inside is
-  // rotated - masking a rotated element directly rotates the fade with it,
-  // which is what let the wave get hard-clipped instead of fading out.
-  // Vertical clipping is prevented by sizing the container (see className in
-  // page.tsx) so the rotated+scaled svg never overflows it - a vertical fade
-  // was tried instead, but the rotated line drifts through that band along
-  // its whole length, so it dimmed text that was never actually clipped.
   return (
-    <div
-      className={className}
-      style={{
-        overflow: "hidden",
-        WebkitMaskImage:
-          "linear-gradient(to right, transparent, black 12%, black 88%, transparent)",
-        maskImage:
-          "linear-gradient(to right, transparent, black 12%, black 88%, transparent)",
-      }}
-      role="presentation"
-    >
-      <svg
-        viewBox="0 0 1440 170"
-        preserveAspectRatio="xMidYMid slice"
-        className={`h-full w-full ${rotateClassName ?? ""}`}
-      >
-        <defs>
-          <path id={PATH_ID} d={WAVE_D} />
-        </defs>
-        <path d={WAVE_D} fill="none" stroke="var(--secondary)" strokeWidth={13} strokeLinecap="round" />
-        <text
-          fill="var(--ink)"
-          dominantBaseline="middle"
-          className="font-sans text-[13px] font-bold uppercase tracking-[0.08em]"
+    <div className={className} role="presentation">
+      <div className="relative h-full w-full">
+        <div
+          className={cn(
+            "absolute inset-x-0 top-1/2 flex -translate-y-1/2 items-center overflow-hidden bg-secondary py-[0.4em]",
+            rotateClassName
+          )}
         >
-          <textPath href={`#${PATH_ID}`} startOffset="0%">
-            <animate
-              attributeName="startOffset"
-              from="0%"
-              to="-100%"
-              dur="40s"
-              repeatCount="indefinite"
-            />
-            {text}
-          </textPath>
-        </text>
-      </svg>
+          <div className="flex w-max shrink-0 animate-marquee items-center">
+            <span className="whitespace-nowrap px-1.5 font-sans text-[clamp(1rem,2.2vw,1.75rem)] font-bold uppercase leading-none tracking-[0.03em] text-ink">
+              {text}
+            </span>
+            <span
+              className="whitespace-nowrap px-1.5 font-sans text-[clamp(1rem,2.2vw,1.75rem)] font-bold uppercase leading-none tracking-[0.03em] text-ink"
+              aria-hidden="true"
+            >
+              {text}
+            </span>
+          </div>
+        </div>
+      </div>
     </div>
   );
 }

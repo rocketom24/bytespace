@@ -2,9 +2,19 @@
 
 import { useEffect, useState, type MouseEvent } from "react";
 import { animate, motion, useMotionValue, type PanInfo } from "framer-motion";
-import { ArrowLeft, ArrowRight, Play, Star } from "lucide-react";
+import { ArrowLeft, ArrowRight, Bookmark, Play, Star } from "lucide-react";
 import { cn } from "@/lib/cn";
+import { getCreatorById } from "@/lib/creators";
 import type { Course } from "@/data/courses";
+
+function initials(name: string) {
+  return name
+    .split(" ")
+    .map((part) => part.charAt(0))
+    .join("")
+    .slice(0, 2)
+    .toUpperCase();
+}
 
 const SWIPE_THRESHOLD = 120;
 const DRAG_ROTATE_RANGE = 220;
@@ -114,24 +124,66 @@ export function HeroCourseCard({
           <ArrowRight className="h-3.5 w-3.5" aria-hidden />
         </motion.div>
       ) : null}
+
+      {isFront ? (
+        <div className="absolute left-3 top-3 z-10 hidden items-center gap-1.5 rounded-full bg-ink/90 px-3 py-1.5 text-[11px] font-semibold uppercase tracking-wide text-background lg:flex">
+          <span
+            className={cn("h-1.5 w-1.5 rounded-full", course.format === "Live" ? "bg-red-400" : "bg-accent")}
+            aria-hidden
+          />
+          {course.format === "Live" ? "Live · Week 1" : course.format}
+        </div>
+      ) : null}
+      {isFront ? (
+        <span
+          aria-hidden
+          className="absolute right-3 top-3 z-10 hidden h-8 w-8 items-center justify-center rounded-full bg-surface/90 text-ink shadow-md lg:flex"
+        >
+          <Bookmark className="h-4 w-4" aria-hidden />
+        </span>
+      ) : null}
+
       <div className="absolute inset-0 flex items-center justify-center bg-ink/0 transition-colors group-hover:bg-ink/20">
         <span
           className={cn(
-            "flex h-12 w-12 items-center justify-center rounded-full bg-surface/90 opacity-0 shadow-lg transition-opacity",
-            !isFront && "group-hover:opacity-100"
+            "flex h-12 w-12 items-center justify-center rounded-full bg-surface/90 shadow-lg transition-opacity",
+            isFront ? "opacity-100" : "opacity-0 group-hover:opacity-100"
           )}
         >
           <Play className="h-5 w-5 fill-ink text-ink" aria-hidden />
         </span>
       </div>
-      <div className="relative m-[clamp(0.6rem,1.4vh,1rem)] flex flex-col gap-1 rounded-2xl bg-surface/90 p-[clamp(0.75rem,1.6vh,1rem)] backdrop-blur">
-        <p className="text-meta font-semibold text-ink">{course.title}</p>
+
+      <div className="relative m-[clamp(0.6rem,1.4vh,1rem)] flex flex-col gap-2 rounded-2xl bg-surface/95 p-[clamp(0.75rem,1.6vh,1rem)] backdrop-blur">
+        <p className="text-micro font-semibold uppercase tracking-wide text-ink-muted">
+          {course.category} · {course.lessonCount} lessons
+        </p>
+        <p className="text-meta font-bold text-ink">{course.title}</p>
+        {(() => {
+          const creator = getCreatorById(course.creatorId);
+          if (!creator) return null;
+          return (
+            <div className="flex items-center gap-2">
+              <span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-primary text-[10px] font-bold text-background">
+                {initials(creator.name)}
+              </span>
+              <span className="truncate text-micro font-medium text-ink-muted">{creator.name}</span>
+            </div>
+          );
+        })()}
+        <div className="h-1.5 w-full overflow-hidden rounded-full bg-soft">
+          <div
+            className="h-full rounded-full bg-accent"
+            style={{ width: `${(course.rating / 5) * 100}%` }}
+            aria-hidden
+          />
+        </div>
         <div className="flex items-center gap-2 text-micro text-ink-muted">
           <span className="flex items-center gap-1 font-medium text-primary">
             <Star className="h-3 w-3 fill-current" aria-hidden />
             {course.rating}
           </span>
-          <span>· {course.studentCount.toLocaleString()}+ students</span>
+          <span>· {course.studentCount.toLocaleString()} students</span>
         </div>
       </div>
     </motion.div>

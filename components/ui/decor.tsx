@@ -77,7 +77,11 @@ export const MINT = "color-mix(in srgb, var(--soft) 50%, var(--surface))";
 export const LIME = "color-mix(in srgb, var(--secondary) 58%, var(--background))";
 export const HAZE = "color-mix(in srgb, var(--soft) 34%, var(--surface))";
 
-export const PALETTE = [PINE, FOREST, JADE, MINT, LIME, HAZE, TINT_A, TINT_B, TINT_C, TINT_D];
+export const CORAL = "color-mix(in srgb, var(--accent) 55%, white)";
+export const TERRACOTTA = "color-mix(in srgb, var(--accent) 70%, var(--ink))";
+export const RUST = "color-mix(in srgb, var(--accent) 45%, var(--ink-muted))";
+
+export const PALETTE = [PINE, FOREST, JADE, MINT, LIME, HAZE, TINT_A, TINT_B, TINT_C, TINT_D, CORAL, TERRACOTTA, RUST];
 
 export const ICON_POOL: LucideIcon[] = [
   Book,

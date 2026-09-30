@@ -12,6 +12,7 @@ import {
 } from "react";
 import Lenis from "lenis";
 import { motion, useMotionValue, useMotionValueEvent, useTransform, type MotionValue } from "framer-motion";
+import { ArrowRight } from "lucide-react";
 import { useReducedMotionSafe } from "@/lib/useReducedMotionSafe";
 
 type TrackValue = {
@@ -219,37 +220,47 @@ export function ScrollTrack({ children }: { children: React.ReactNode }) {
       {sections.length > 1 && (
         <nav
           aria-label="Sections"
-          className="pointer-events-none fixed inset-x-0 bottom-5 z-40 hidden justify-center px-6 lg:flex"
+          className="pointer-events-none fixed inset-x-0 bottom-0 z-40 hidden items-center gap-6 px-6 py-4 lg:flex"
         >
-          <div className="pointer-events-auto flex items-center gap-3 rounded-full border border-ink/10 bg-surface/70 px-4 py-2 shadow-lg shadow-ink/5 backdrop-blur">
-            <span className="text-micro font-semibold tabular-nums text-ink-muted">
+          <div className="pointer-events-auto flex shrink-0 items-baseline gap-1.5">
+            <span className="text-micro font-bold tabular-nums text-ink">
               {String(active + 1).padStart(2, "0")} / {String(sections.length).padStart(2, "0")}
             </span>
-            <span className="h-4 w-px bg-ink/10" />
-            <div className="flex items-center gap-1.5">
-              {sections.map((section, index) => (
-                <button
-                  key={section.id}
-                  type="button"
-                  onClick={() => goTo(section)}
-                  aria-label={section.label}
-                  aria-current={index === active}
-                  className="group relative flex h-5 items-center px-0.5 outline-none"
-                >
-                  <span
-                    className={`h-1.5 rounded-full transition-all duration-500 ease-out group-focus-visible:ring-2 group-focus-visible:ring-primary ${
-                      index === active
-                        ? "w-7 bg-primary"
-                        : "w-1.5 bg-ink/20 group-hover:bg-ink/40"
-                    }`}
-                  />
-                </button>
-              ))}
-            </div>
-            <span className="h-4 w-px bg-ink/10" />
-            <span className="max-w-40 truncate text-micro font-medium text-ink">
-              {sections[active]?.label}
+            <span className="text-[10px] font-semibold uppercase tracking-wide text-ink-muted">
+              You are here
             </span>
+          </div>
+
+          <div className="flex min-w-0 flex-1 items-center gap-2">
+            {sections.map((section, index) => (
+              <button
+                key={section.id}
+                type="button"
+                onClick={() => goTo(section)}
+                aria-current={index === active}
+                className="pointer-events-auto flex-1 truncate border-t-2 pt-1.5 text-left text-micro font-semibold uppercase tracking-wide outline-none transition-colors"
+                style={{
+                  borderColor: index === active ? "var(--accent)" : "color-mix(in srgb, var(--ink) 12%, transparent)",
+                  color: index === active ? "var(--ink)" : "var(--ink-muted)",
+                }}
+              >
+                {section.label}
+              </button>
+            ))}
+          </div>
+
+          <div className="pointer-events-auto flex shrink-0 items-center gap-3">
+            <span className="text-[10px] font-semibold uppercase tracking-wide text-ink-muted">
+              Drag to explore
+            </span>
+            <button
+              type="button"
+              onClick={() => goTo(sections[Math.min(active + 1, sections.length - 1)])}
+              aria-label="Next section"
+              className="flex h-8 w-8 items-center justify-center rounded-full bg-ink text-background transition-transform hover:scale-105"
+            >
+              <ArrowRight className="h-3.5 w-3.5" aria-hidden />
+            </button>
           </div>
         </nav>
       )}

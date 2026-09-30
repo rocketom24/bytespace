@@ -3,12 +3,13 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
-import { Menu, X } from "lucide-react";
+import { ArrowUpRight, Menu, X } from "lucide-react";
 import { useRef, useState } from "react";
 
 const links = [
   { href: "/", label: "Home" },
   { href: "/courses", label: "Courses" },
+  { href: "/courses", label: "Tracks" },
   { href: "/#creators", label: "Creators" },
 ];
 
@@ -54,7 +55,7 @@ function CompactNavbar() {
               <button className="rounded-xl px-3 py-2 text-left text-meta font-medium text-background/90 transition-colors hover:bg-white/10">
                 Sign In
               </button>
-              <button className="rounded-xl bg-secondary px-3 py-2 text-left text-meta font-semibold text-ink transition-colors hover:bg-secondary/90">
+              <button className="rounded-xl bg-accent px-3 py-2 text-left text-meta font-semibold text-background transition-colors hover:bg-accent/90">
                 Join Us
               </button>
             </motion.div>
@@ -88,9 +89,10 @@ export function Navbar() {
       <nav className="flex w-full max-w-3xl items-center justify-between gap-4 rounded-full border border-white/10 bg-ink/95 py-2 pl-5 pr-2.5 shadow-xl shadow-ink/25 backdrop-blur">
         <Link
           href="/"
-          className="text-lg font-bold tracking-tight text-background transition-colors hover:text-secondary"
+          className="inline-flex items-center gap-1 text-lg font-bold tracking-tight text-background transition-colors hover:text-secondary"
         >
           ByteSpace
+          <span className="h-1.5 w-1.5 rounded-full bg-accent" aria-hidden />
         </Link>
         <div
           ref={containerRef}
@@ -118,7 +120,7 @@ export function Navbar() {
           </AnimatePresence>
           {links.map((link) => (
             <Link
-              key={link.href}
+              key={link.label}
               href={link.href}
               onMouseEnter={(e) => trackPill(e.currentTarget)}
               onFocus={(e) => trackPill(e.currentTarget)}
@@ -127,6 +129,9 @@ export function Navbar() {
               <span className="relative z-10 inline-block text-sm font-medium text-white mix-blend-difference">
                 {link.label}
               </span>
+              {pathname === link.href && link.label !== "Tracks" ? (
+                <span className="absolute left-1/2 -bottom-0.5 h-1 w-1 -translate-x-1/2 rounded-full bg-accent" aria-hidden />
+              ) : null}
             </Link>
           ))}
         </div>
@@ -147,14 +152,17 @@ export function Navbar() {
             <span className="absolute inset-0 filter-[url(#liquid-goo)]">
               <span className="absolute bottom-1/2 left-1/2 h-2 w-2 -translate-x-1/2 translate-y-1/2 scale-0 rounded-full bg-surface transition-transform duration-500 ease-in-out group-hover:scale-[14]" />
             </span>
-            <span className="relative z-10">Sign In</span>
+            <span className="relative z-10">Sign in</span>
           </button>
-          <button className="group relative inline-flex items-center justify-center overflow-hidden rounded-full bg-secondary px-5 py-2 text-xs font-semibold text-ink shadow-sm">
+          <button className="group relative inline-flex items-center justify-center gap-1 overflow-hidden rounded-full bg-accent py-2 pl-5 pr-2 text-xs font-semibold text-background shadow-sm">
             <span className="absolute inset-0 filter-[url(#liquid-goo)]">
-              <span className="absolute inset-0 rounded-full bg-secondary" />
-              <span className="absolute bottom-0 left-1/2 h-2 w-2 -translate-x-1/2 translate-y-1/2 scale-0 rounded-full bg-soft transition-transform duration-500 ease-in-out group-hover:scale-[14]" />
+              <span className="absolute inset-0 rounded-full bg-accent" />
+              <span className="absolute bottom-0 left-1/2 h-2 w-2 -translate-x-1/2 translate-y-1/2 scale-0 rounded-full bg-ink transition-transform duration-500 ease-in-out group-hover:scale-[14]" />
             </span>
-            <span className="relative z-10">Join Us</span>
+            <span className="relative z-10">Join us</span>
+            <span className="relative z-10 flex h-4 w-4 items-center justify-center rounded-full bg-background/25">
+              <ArrowUpRight className="h-2.5 w-2.5" aria-hidden />
+            </span>
           </button>
         </div>
       </nav>

@@ -1,10 +1,12 @@
 import Link from "next/link";
-import { ArrowUpRight, Asterisk, CheckCircle2 } from "lucide-react";
+import { ArrowRight, ArrowUpRight, CheckCircle2 } from "lucide-react";
 import { ScrollTrack } from "@/components/scroll/ScrollTrack";
 import { Slide, DEFAULT_PIN_SPAN } from "@/components/layout/Slide";
 import { Container } from "@/components/layout/Container";
 import { Footer } from "@/components/layout/Footer";
 import { Button } from "@/components/ui/Button";
+import { cn } from "@/lib/cn";
+import { PRESS_INTERACTIVE } from "@/lib/motion";
 import { RibbonMarquee } from "@/components/ui/RibbonMarquee";
 import { PathDeck } from "@/components/ui/PathDeck";
 import { CourseList } from "@/components/ui/CourseList";
@@ -17,8 +19,11 @@ import { StatTile } from "@/components/ui/StatTile";
 import { TestimonialCard } from "@/components/ui/TestimonialCard";
 import { courses } from "@/data/courses";
 import { categories } from "@/data/categories";
+import { creators } from "@/data/creators";
 import { stats } from "@/data/stats";
 import { testimonials } from "@/data/testimonials";
+
+const AVATAR_TINTS = ["var(--primary)", "var(--ink)", "var(--accent)"];
 
 const creatorBenefits = [
   "Keep 85% of every sale, no hidden fees",
@@ -38,49 +43,89 @@ export default function HomePage() {
         className="items-center"
         backdrop={
           <>
+            <div aria-hidden className="absolute inset-0 bg-background/95" />
             <HeroDoodles />
             <RibbonMarquee
               items={categories.map((category) => category.name)}
-              className="pointer-events-none absolute inset-x-0 top-1/2 z-0 hidden h-[clamp(9rem,13vw,18rem)] w-full -translate-y-1/2 lg:block"
-              rotateClassName="-rotate-6 scale-125"
+              className="pointer-events-none absolute inset-x-0 bottom-16 z-0 hidden h-[calc(3rem+4vw)] w-full lg:block"
+              rotateClassName="-rotate-2"
             />
           </>
         }
       >
-        <Container className="relative z-10 grid items-center gap-[var(--block)] lg:grid-cols-[1fr_auto_1fr] lg:items-stretch">
-          <div className="flex flex-col gap-[var(--block)] lg:h-full lg:justify-between lg:py-[clamp(1rem,6vh,4rem)]">
-            <h1 className="max-w-[20ch] text-display font-bold text-ink">
-              Get Access to Hundreds of Courses Available
-            </h1>
+        <Container className="relative z-10 grid items-center gap-[clamp(1.5rem,3.2vw,3.5rem)] lg:grid-cols-[minmax(0,1fr)_auto_minmax(0,1fr)] lg:items-stretch">
+          <div className="relative flex flex-col gap-[clamp(1.5rem,4vh,3rem)] lg:z-20 lg:h-full lg:justify-center lg:py-[clamp(1rem,6vh,4rem)] lg:pr-4">
+            <div className="flex flex-col gap-[clamp(0.9rem,2vh,1.5rem)]">
+              <span className="inline-flex w-fit items-center gap-2 rounded-full border border-ink/10 bg-surface px-3.5 py-1.5 text-micro font-semibold uppercase tracking-wide text-ink shadow-sm shadow-ink/5">
+                <span className="h-1.5 w-1.5 rounded-full bg-accent" aria-hidden />
+                New season · Six learning tracks
+              </span>
+              <h1 className="whitespace-nowrap text-[clamp(2.4rem,3.8vw,4rem)] font-bold leading-[1.05] tracking-[-0.03em] text-ink">
+                Get access to
+                <br />
+                <span className="text-accent underline decoration-wavy decoration-[3px] underline-offset-[7px]">
+                  hundreds
+                </span>{" "}
+                of
+                <br />
+                courses
+              </h1>
+              <div className="flex items-center gap-3">
+                <div className="flex -space-x-3">
+                  {creators.slice(0, 3).map((creator, index) => (
+                    <span
+                      key={creator.id}
+                      className="flex h-8 w-8 items-center justify-center rounded-full border-2 border-background text-micro font-bold text-background"
+                      style={{ backgroundColor: AVATAR_TINTS[index % AVATAR_TINTS.length] }}
+                      aria-hidden
+                    >
+                      {creator.name.charAt(0)}
+                    </span>
+                  ))}
+                </div>
+                <span className="rounded-full bg-surface px-3 py-1.5 text-micro font-semibold text-ink shadow-sm shadow-ink/5">
+                  {(courses[0].studentCount / 1000).toFixed(1)}k live
+                </span>
+              </div>
+            </div>
+
             <RibbonMarquee
               items={categories.map((category) => category.name)}
               className="pointer-events-none -mx-[var(--gutter)] h-16 w-[calc(100%+2*var(--gutter))] sm:h-20 lg:hidden"
             />
-            <ul className="flex flex-col gap-2">
-              {categories.slice(0, 3).map((category) => (
-                <li
-                  key={category.id}
-                  className="flex items-center gap-2 text-micro font-semibold uppercase tracking-wide text-ink-muted"
+
+            <div className="flex flex-col gap-3">
+              <div className="flex items-center justify-between gap-3">
+                <span className="text-micro font-semibold uppercase tracking-wide text-ink-muted">
+                  Start where you are
+                </span>
+                <Link
+                  href="/courses"
+                  className="text-micro font-semibold text-accent transition-colors hover:text-ink"
                 >
-                  <Asterisk className="h-3.5 w-3.5 text-primary" aria-hidden />
-                  {category.name}
-                </li>
-              ))}
-            </ul>
+                  +{categories.length - 3} more →
+                </Link>
+              </div>
+              <ul className="flex flex-col">
+                {categories.slice(0, 3).map((category) => (
+                  <li
+                    key={category.id}
+                    className="flex items-center justify-between gap-3 border-t border-ink/10 py-2.5 text-ink first:border-t-0"
+                  >
+                    <span className="text-meta font-semibold">
+                      {category.name.charAt(0) + category.name.slice(1).toLowerCase()}
+                    </span>
+                    <span className="text-meta text-ink-muted">{category.courseCount}</span>
+                  </li>
+                ))}
+              </ul>
+            </div>
           </div>
 
           <div className="relative order-3 mx-auto self-center lg:order-0">
-            <div
-              aria-hidden
-              className="absolute -z-10 h-[clamp(14rem,34vh,20rem)] w-[clamp(14rem,34vh,20rem)] rounded-[40%_60%_65%_35%/40%_45%_55%_60%] bg-secondary/40 blur-2xl"
-            />
-            <HeroCardStack />
-          </div>
-
-          <div className="order-2 flex h-full flex-col justify-between gap-[var(--block)] lg:order-0 lg:py-[clamp(1rem,6vh,4rem)]">
             <Link
               href={`/course/${courses[0].id}`}
-              className="group relative flex w-fit items-center gap-3 self-start rounded-2xl bg-surface p-3 pr-10 shadow-lg shadow-ink/10 transition-shadow hover:shadow-xl lg:self-end"
+              className="group relative z-30 mb-4 flex w-fit items-center gap-3 rounded-2xl bg-surface p-3 pr-10 shadow-lg shadow-ink/10 transition-shadow hover:shadow-xl lg:absolute lg:-top-12 lg:-right-5 lg:mb-0"
             >
               <span
                 className="h-[clamp(2.25rem,5vh,3rem)] w-[clamp(2.25rem,5vh,3rem)] shrink-0 rounded-xl"
@@ -88,7 +133,7 @@ export default function HomePage() {
                 aria-hidden
               />
               <span className="flex flex-col">
-                <span className="text-micro font-semibold uppercase tracking-wide text-primary">
+                <span className="text-micro font-semibold uppercase tracking-wide text-accent">
                   New course
                 </span>
                 <span className="text-meta font-bold text-ink">{courses[0].title}</span>
@@ -97,22 +142,54 @@ export default function HomePage() {
                 <ArrowUpRight className="h-3.5 w-3.5" aria-hidden />
               </span>
             </Link>
+            <HeroCardStack />
+          </div>
 
-            <div className="flex flex-col gap-[clamp(0.75rem,2vh,1.25rem)] lg:mt-[max(14rem,32vh)]">
+          <div className="order-2 flex h-full flex-col justify-center gap-[var(--block)] lg:order-0 lg:justify-center lg:py-[clamp(1rem,6vh,4rem)] lg:pl-4">
+            <div className="flex flex-col gap-[clamp(0.75rem,2vh,1.25rem)]">
               <p className="max-w-[34ch] text-lead text-ink-muted">
                 Stream, learn, and level up with hundreds of expert-led courses across
                 design, code, and business.
               </p>
-              <HeroSearchSpotlight />
-              <div className="flex flex-wrap items-center gap-3">
-                <Button href="/courses">Browse courses</Button>
-                <Link
-                  href="/reviews"
-                  className="flex h-11 w-11 items-center justify-center rounded-full bg-secondary text-ink shadow-sm transition-transform hover:scale-105"
-                  aria-label="See reviews"
+              <div className="relative w-full max-w-md">
+                <HeroSearchSpotlight />
+                <span
+                  aria-hidden
+                  className="pointer-events-none absolute right-1.5 top-1/2 z-20 flex h-11 w-11 -translate-y-1/2 items-center justify-center rounded-full bg-accent text-background shadow-md shadow-accent/30"
                 >
-                  <ArrowUpRight className="h-4 w-4" aria-hidden />
+                  <ArrowRight className="h-4 w-4" aria-hidden />
+                </span>
+              </div>
+              <div className="flex flex-wrap items-center gap-4">
+                <Link
+                  href="/courses"
+                  className={cn(
+                    "inline-flex items-center gap-3 rounded-full bg-ink py-2 pl-7 pr-2 text-lead font-bold text-background shadow-lg shadow-ink/20 hover:bg-ink/90",
+                    PRESS_INTERACTIVE
+                  )}
+                >
+                  Browse courses
+                  <span className="flex h-10 w-10 items-center justify-center rounded-full bg-accent text-background">
+                    <ArrowRight className="h-4 w-4" aria-hidden />
+                  </span>
                 </Link>
+                <Link
+                  href="/#creators"
+                  className="group inline-flex items-center gap-1.5 text-meta font-semibold text-ink underline decoration-ink/25 underline-offset-4 transition-colors hover:decoration-ink"
+                >
+                  Meet the creators
+                  <ArrowUpRight
+                    className="h-3.5 w-3.5 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5"
+                    aria-hidden
+                  />
+                </Link>
+              </div>
+              <div className="flex flex-wrap items-center gap-2 text-micro font-semibold uppercase tracking-wide text-ink-muted">
+                <span>{stats[1].value.toLocaleString()}+ courses</span>
+                <span className="h-1 w-1 rounded-full bg-ink-muted/50" aria-hidden />
+                <span>{stats[2].value.toLocaleString()}+ creators</span>
+                <span className="h-1 w-1 rounded-full bg-ink-muted/50" aria-hidden />
+                <span>{categories.length} tracks</span>
               </div>
             </div>
           </div>

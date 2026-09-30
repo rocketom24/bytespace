@@ -95,8 +95,8 @@ function Chip({
       className={cn(
         "rounded-full border px-3 py-1.5 text-micro font-medium transition-colors duration-200",
         active
-          ? "border-primary bg-primary text-background"
-          : "border-ink/10 bg-surface text-ink-muted hover:border-primary/50 hover:text-ink"
+          ? "border-accent bg-accent text-background"
+          : "border-ink/10 bg-surface text-ink-muted hover:border-accent/50 hover:text-ink"
       )}
     >
       {children}
@@ -176,7 +176,7 @@ export function CourseFilterButton({
         className={cn(
           "flex h-14 w-14 items-center justify-center rounded-full border-2 bg-surface shadow-lg sm:h-16 sm:w-16",
           PRESS_INTERACTIVE,
-          active || open ? "border-primary text-primary" : "border-ink/10 text-ink-muted hover:border-primary/50"
+          active || open ? "border-accent text-accent" : "border-ink/10 text-ink-muted hover:border-accent/50"
         )}
       >
         <SlidersHorizontal className="h-5 w-5" aria-hidden />
@@ -299,7 +299,7 @@ export function CourseFilterButton({
                 onApply(draft);
                 setOpen(false);
               }}
-              className="rounded-full bg-primary px-4 py-2 text-meta font-semibold text-background hover:bg-ink"
+              className="rounded-full bg-accent px-4 py-2 text-meta font-semibold text-background hover:bg-ink"
             >
               Apply filters
             </button>

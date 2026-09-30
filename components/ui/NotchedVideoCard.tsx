@@ -63,7 +63,7 @@ export function NotchedVideoCard({
 
         <span
           aria-hidden
-          className="absolute bottom-0 right-0 flex items-center justify-center rounded-full bg-primary text-background shadow-md shadow-ink/15 transition-[scale,background-color] duration-300 group-hover:scale-105 group-hover:bg-ink"
+          className="absolute bottom-0 right-0 flex items-center justify-center rounded-full bg-accent text-background shadow-md shadow-ink/15 transition-[scale,background-color] duration-300 group-hover:scale-105 group-hover:bg-ink"
           style={{ width: DISC, height: DISC }}
         >
           <ArrowUpRight

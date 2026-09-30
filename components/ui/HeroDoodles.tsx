@@ -56,7 +56,9 @@ import {
   TINT_C,
   PINE,
   FOREST,
-  MINT,
+  CORAL,
+  TERRACOTTA,
+  RUST,
   MarkShape,
   GRAIN_STYLE,
   VIGNETTE_STYLE,
@@ -120,32 +122,13 @@ type Mark = {
 
 const strokeLayers: StrokeLayer[] = [
   {
-    blur: 54,
-    opacity: 0.72,
-    strokes: [
-      { d: "M -18 9 C 12 -6, 33 22, 61 8 S 99 -13, 119 1", width: 104, from: "var(--primary)", to: "var(--secondary)" },
-      { d: "M -18 91 C 12 70, 44 103, 73 85 S 107 62, 119 75", width: 110, from: "var(--soft)", to: "var(--secondary)" },
-      { d: "M 104 -12 C 92 16, 103 42, 92 66 S 101 94, 88 118", width: 82, from: "var(--secondary)", to: "var(--soft)" },
-    ],
-  },
-  {
-    blur: 16,
+    blur: 2,
     opacity: 0.5,
     strokes: [
-      { d: "M -16 17 C 14 3, 31 31, 59 17 S 97 -1, 117 11", width: 26, from: PINE, to: "var(--primary)" },
-      { d: "M -18 24 C -7 41, -12 61, -1 79", width: 42, from: "var(--primary)", to: "var(--soft)" },
-      { d: "M 119 70 C 100 84, 86 66, 62 84 S 24 102, 2 92", width: 22, from: "var(--soft)", to: "var(--secondary)" },
-      { d: "M 88 8 C 99 26, 90 44, 101 60", width: 24, from: "var(--secondary)", to: MINT },
-    ],
-  },
-  {
-    blur: 2,
-    opacity: 0.55,
-    strokes: [
       { d: "M -10 16 C 16 5, 32 27, 60 14 S 98 -1, 118 9", width: 5, from: FOREST, to: "var(--primary)" },
-      { d: "M 118 84 C 98 93, 80 74, 58 89", width: 4, from: "var(--primary)", to: PINE },
+      { d: "M 118 84 C 98 93, 80 74, 58 89", width: 4, from: TERRACOTTA, to: PINE },
       { d: "M -14 62 C -5 72, -1 84, -6 96", width: 4, from: FOREST, to: "var(--primary)" },
-      { d: "M 91 16 C 100 32, 93 46, 103 58", width: 3, from: PINE, to: "var(--secondary)" },
+      { d: "M 91 16 C 100 32, 93 46, 103 58", width: 3, from: PINE, to: CORAL },
       { d: "M -16 34 C -7 44, -9 56, -1 66", width: 4, from: "var(--primary)", to: FOREST },
     ],
   },
@@ -223,6 +206,26 @@ const doodles: Doodle[] = [
   { Icon: Star, size: 12, top: "27%", left: "17%", rotate: 20, colorStyle: TINT_C, opacity: "opacity-[0.4]", fill: true, hiddenBelow: true },
   { Icon: Star, size: 12, bottom: "27%", right: "17%", rotate: -20, colorStyle: TINT_C, opacity: "opacity-[0.4]", fill: true, hiddenBelow: true },
   { Icon: Sparkle, size: 14, top: "34%", right: "16%", rotate: -6, color: "text-secondary", opacity: "opacity-[0.18]", fill: true, hiddenBelow: true },
+
+  // extra color-mix pass: coral + terracotta worked through the same green family, more density overall
+  { Icon: Rocket, size: 22, top: "31%", left: "16%", rotate: -16, colorStyle: TERRACOTTA, opacity: "opacity-[0.22]", hiddenBelow: true },
+  { Icon: Lightbulb, size: 20, top: "42%", left: "10%", rotate: 10, color: "text-accent", opacity: "opacity-[0.2]", hiddenBelow: true },
+  { Icon: Star, size: 14, top: "52%", left: "6%", rotate: -12, colorStyle: CORAL, opacity: "opacity-[0.26]", fill: true, hiddenBelow: true },
+  { Icon: Zap, size: 20, top: "65%", left: "12%", rotate: 18, colorStyle: RUST, opacity: "opacity-[0.2]", hiddenBelow: true },
+  { Icon: Sparkles, size: 18, top: "75%", left: "18%", rotate: -8, color: "text-accent", opacity: "opacity-[0.16]", hiddenBelow: true },
+  { Icon: Puzzle, size: 22, top: "36%", right: "17%", rotate: 14, colorStyle: TERRACOTTA, opacity: "opacity-[0.22]", fill: true, hiddenBelow: true },
+  { Icon: Target, size: 18, top: "44%", right: "10%", rotate: -9, color: "text-accent", opacity: "opacity-[0.2]", hiddenBelow: true },
+  { Icon: CheckCircle2, size: 16, top: "56%", right: "6%", rotate: 12, colorStyle: CORAL, opacity: "opacity-[0.24]", hiddenBelow: true },
+  { Icon: Award, size: 20, top: "66%", right: "13%", rotate: -14, colorStyle: RUST, opacity: "opacity-[0.2]", hiddenBelow: true },
+  { Icon: Sigma, size: 18, top: "76%", right: "19%", rotate: 9, color: "text-primary", opacity: "opacity-[0.18]", hiddenBelow: true },
+  { Icon: Compass, size: 18, top: "5%", left: "26%", rotate: -10, color: "text-secondary", opacity: "opacity-[0.2]", hiddenBelow: false },
+  { Icon: Feather, size: 16, bottom: "6%", right: "27%", rotate: 16, colorStyle: TERRACOTTA, opacity: "opacity-[0.22]", hiddenBelow: false },
+  { Icon: Atom, size: 20, bottom: "30%", left: "9%", rotate: 8, colorStyle: CORAL, opacity: "opacity-[0.18]", hiddenBelow: true },
+  { Icon: Beaker, size: 20, bottom: "34%", right: "8%", rotate: -11, color: "text-accent", opacity: "opacity-[0.18]", hiddenBelow: true },
+  { Icon: Hash, size: 14, top: "48%", left: "23%", rotate: 20, colorStyle: RUST, opacity: "opacity-[0.16]", hiddenBelow: true },
+  { Icon: Binary, size: 14, top: "58%", right: "24%", rotate: -18, color: "text-primary", opacity: "opacity-[0.16]", hiddenBelow: true },
+  { Icon: PenTool, size: 18, bottom: "44%", left: "16%", rotate: -6, colorStyle: TERRACOTTA, opacity: "opacity-[0.18]", hiddenBelow: true },
+  { Icon: Bookmark, size: 18, bottom: "48%", right: "17%", rotate: 12, color: "text-accent", opacity: "opacity-[0.18]", hiddenBelow: true },
 ];
 
 const rings: Ring[] = [
@@ -234,6 +237,8 @@ const rings: Ring[] = [
   { bottom: "20%", left: "26%", size: 12, color: "border-secondary", opacity: "opacity-[0.36]", dashed: false, filled: true, hiddenBelow: false },
   { top: "64%", left: "13%", size: 16, color: "border-primary", opacity: "opacity-[0.2]", dashed: false, hiddenBelow: true },
   { bottom: "62%", right: "12%", size: 14, color: "border-soft", opacity: "opacity-[0.26]", dashed: true, hiddenBelow: true },
+  { top: "39%", left: "20%", size: 14, color: "border-accent", opacity: "opacity-[0.22]", dashed: false, hiddenBelow: true },
+  { bottom: "36%", right: "21%", size: 16, color: "border-accent", opacity: "opacity-[0.2]", dashed: true, hiddenBelow: true },
 ];
 
 const marks: Mark[] = [
@@ -245,6 +250,8 @@ const marks: Mark[] = [
   { variant: "swirl", size: 32, bottom: "40%", right: "5%", rotate: 180, color: "text-primary", opacity: "opacity-[0.16]", hiddenBelow: true },
   { variant: "burst", size: 26, top: "6%", left: "27%", rotate: 12, color: "text-secondary", opacity: "opacity-[0.28]", hiddenBelow: false },
   { variant: "burst", size: 24, bottom: "5%", right: "33%", rotate: -10, color: "text-primary", opacity: "opacity-[0.26]", hiddenBelow: false },
+  { variant: "squiggle", size: 30, top: "50%", left: "20%", rotate: 4, colorStyle: TERRACOTTA, opacity: "opacity-[0.2]", hiddenBelow: true },
+  { variant: "scribble", size: 32, bottom: "50%", right: "20%", rotate: -6, colorStyle: CORAL, opacity: "opacity-[0.2]", hiddenBelow: true },
 ];
 
 export function HeroDoodles() {
@@ -253,15 +260,6 @@ export function HeroDoodles() {
       aria-hidden
       className="pointer-events-none absolute inset-0 z-0 overflow-hidden select-none"
     >
-      <div
-        className="absolute inset-0 opacity-70 sm:opacity-85 lg:opacity-100"
-        style={{
-          background:
-            "radial-gradient(ellipse 46% 38% at 8% 10%, color-mix(in srgb, var(--primary) 16%, transparent), transparent 70%)," +
-            "radial-gradient(ellipse 42% 36% at 94% 92%, color-mix(in srgb, var(--secondary) 14%, transparent), transparent 70%)",
-        }}
-      />
-
       {strokeLayers.map((layer, layerIndex) => (
         <svg
           key={layerIndex}

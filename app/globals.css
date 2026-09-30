@@ -1,13 +1,14 @@
 @import "tailwindcss";
 
 :root {
-  --primary: #659287;
-  --secondary: #88bda4;
-  --soft: #b1d3b9;
-  --background: #e6f2dd;
-  --ink: #1c2420;
-  --ink-muted: #4b5750;
+  --primary: #6b9080;
+  --secondary: #9dc3ae;
+  --soft: #dcead9;
+  --background: #fdf6ef;
+  --ink: #16211b;
+  --ink-muted: #4a554d;
   --surface: #ffffff;
+  --accent: #ff7a59;
 
   --gutter: clamp(1.25rem, 4.2vw, 5.5rem);
   --shell: min(100%, 90rem);
@@ -23,6 +24,7 @@
   --color-ink: var(--ink);
   --color-ink-muted: var(--ink-muted);
   --color-surface: var(--surface);
+  --color-accent: var(--accent);
   --font-sans: var(--font-jakarta);
 }
 
@@ -86,10 +88,10 @@ body {
 @keyframes search-glow {
   0%,
   100% {
-    box-shadow: 0 0 0 0 rgba(101, 146, 135, 0.35);
+    box-shadow: 0 0 0 0 rgba(107, 144, 128, 0.35);
   }
   50% {
-    box-shadow: 0 0 0 12px rgba(101, 146, 135, 0);
+    box-shadow: 0 0 0 12px rgba(107, 144, 128, 0);
   }
 }
 
