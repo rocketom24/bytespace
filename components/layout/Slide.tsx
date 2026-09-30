@@ -12,6 +12,21 @@ export function useSlideProgress() {
   return useContext(SlideProgressContext);
 }
 
+// Window (as a fraction of the slide's own 0->1 progress) during which the
+// slide sits fully settled - opacity 1, no drift. Widening `pinSpan` stretches
+// the slide's scroll footprint (extra vw on desktop / dvh on mobile) while a
+// sticky inner wrapper keeps it glued to the viewport for that whole span, so
+// the settled window below maps to a long, scrubbable hold instead of an
+// instant. Callers that need this window to drive their own scroll-linked
+// content (e.g. a one-by-one card reveal) import this rather than guessing.
+export function getPinWindow(pinSpan: number) {
+  if (pinSpan <= 1) return { enter: 0.22, exitStart: 0.78 };
+  // Must match when the sticky wrapper actually engages/releases: it sticks
+  // once the (pinSpan * viewport)-wide box has fully scrolled into view (one
+  // viewport-unit in), and releases one viewport-unit before the box ends.
+  return { enter: 1 / (pinSpan + 1), exitStart: pinSpan / (pinSpan + 1) };
+}
+
 export function Slide({
   children,
   backdrop,
@@ -20,6 +35,7 @@ export function Slide({
   id,
   label,
   depth = 1,
+  pinSpan = 1,
 }: {
   children: React.ReactNode;
   backdrop?: React.ReactNode;
@@ -28,6 +44,8 @@ export function Slide({
   id?: string;
   label?: string;
   depth?: number;
+  /** Extra viewport-widths (desktop) / heights (mobile) of scroll to hold this slide pinned. */
+  pinSpan?: number;
 }) {
   const ref = useRef<HTMLElement>(null);
   const metrics = useRef({ start: 0, length: 1, viewport: 1 });
@@ -36,6 +54,7 @@ export function Slide({
   const isDesktop = track?.isDesktop ?? false;
   const position = track?.position;
   const progress = useMotionValue(0.5);
+  const isPinned = pinSpan > 1 && !reduceMotion;
 
   const sync = useCallback(() => {
     const element = ref.current;
@@ -72,11 +91,17 @@ export function Slide({
     progress.set(Math.min(1, Math.max(0, value)));
   });
 
+  const { enter, exitStart } = getPinWindow(isPinned ? pinSpan : 1);
   const shift = 110 * depth;
-  const x = useTransform(progress, [0, 0.5, 1], [shift, 0, -shift]);
-  const y = useTransform(progress, [0, 0.5, 1], [shift * 0.4, 0, -shift * 0.4]);
-  const opacity = useTransform(progress, [0, 0.22, 0.78, 1], [0.15, 1, 1, 0.15]);
-  const scale = useTransform(progress, [0, 0.5, 1], [0.96, 1, 0.96]);
+  const xInput = isPinned ? [0, enter, exitStart, 1] : [0, 0.5, 1];
+  const x = useTransform(progress, xInput, isPinned ? [shift, 0, 0, -shift] : [shift, 0, -shift]);
+  const y = useTransform(
+    progress,
+    xInput,
+    isPinned ? [shift * 0.4, 0, 0, -shift * 0.4] : [shift * 0.4, 0, -shift * 0.4],
+  );
+  const opacity = useTransform(progress, [0, enter, exitStart, 1], [0.15, 1, 1, 0.15]);
+  const scale = useTransform(progress, xInput, isPinned ? [0.96, 1, 1, 0.96] : [0.96, 1, 0.96]);
 
   const motionStyle = reduceMotion
     ? undefined
@@ -84,37 +109,48 @@ export function Slide({
       ? { x, opacity, scale }
       : { y, opacity };
 
+  const outerStyle: React.CSSProperties | undefined = isPinned
+    ? isDesktop
+      ? { width: `${pinSpan * 100}vw` }
+      : { height: `${pinSpan * 100}dvh` }
+    : undefined;
+
   return (
     <section
       ref={ref}
       id={id}
       data-slide={label ?? "Section"}
-      className={cn(
-        "relative flex w-full shrink-0 flex-col justify-center overflow-hidden px-[var(--gutter)] py-[var(--nav-space)] lg:h-dvh lg:w-screen",
-        className,
-      )}
+      className={cn("relative w-full shrink-0 lg:w-screen", className)}
+      style={outerStyle}
     >
       <SlideProgressContext.Provider value={progress}>
         <div
-          aria-hidden
-          className="absolute inset-0 z-0"
-          style={{
-            WebkitMaskImage: isDesktop
-              ? "linear-gradient(to right, transparent, black var(--gutter), black calc(100% - var(--gutter)), transparent)"
-              : "linear-gradient(to bottom, transparent, black 5%, black 95%, transparent)",
-            maskImage: isDesktop
-              ? "linear-gradient(to right, transparent, black var(--gutter), black calc(100% - var(--gutter)), transparent)"
-              : "linear-gradient(to bottom, transparent, black 5%, black 95%, transparent)",
-          }}
+          className={cn(
+            "relative flex w-full flex-col justify-center overflow-hidden px-[var(--gutter)] py-[var(--nav-space)] lg:h-dvh lg:w-screen",
+            isPinned && (isDesktop ? "sticky left-0 top-0" : "sticky top-0 h-dvh"),
+          )}
         >
-          {backdrop}
+          <div
+            aria-hidden
+            className="absolute inset-0 z-0"
+            style={{
+              WebkitMaskImage: isDesktop
+                ? "linear-gradient(to right, transparent, black var(--gutter), black calc(100% - var(--gutter)), transparent)"
+                : "linear-gradient(to bottom, transparent, black 5%, black 95%, transparent)",
+              maskImage: isDesktop
+                ? "linear-gradient(to right, transparent, black var(--gutter), black calc(100% - var(--gutter)), transparent)"
+                : "linear-gradient(to bottom, transparent, black 5%, black 95%, transparent)",
+            }}
+          >
+            {backdrop}
+          </div>
+          <motion.div
+            style={motionStyle}
+            className={cn("flex h-full min-h-0 w-full flex-col justify-center", innerClassName)}
+          >
+            {children}
+          </motion.div>
         </div>
-        <motion.div
-          style={motionStyle}
-          className={cn("flex h-full min-h-0 w-full flex-col justify-center", innerClassName)}
-        >
-          {children}
-        </motion.div>
       </SlideProgressContext.Provider>
     </section>
   );

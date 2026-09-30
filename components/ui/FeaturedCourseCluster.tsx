@@ -1,12 +1,14 @@
 "use client";
 
 import { useState } from "react";
-import { motion } from "framer-motion";
+import { motion, useMotionValue, useSpring, useTransform, type MotionValue } from "framer-motion";
 import { ArrowUpRight } from "lucide-react";
 import Link from "next/link";
 import { NotchedVideoCard } from "@/components/ui/NotchedVideoCard";
+import { getPinWindow, useSlideProgress } from "@/components/layout/Slide";
 import { useReducedMotionSafe } from "@/lib/useReducedMotionSafe";
 import { getCreatorById } from "@/lib/creators";
+import { signedOffset } from "@/lib/deckGeometry";
 import type { Course } from "@/data/courses";
 
 /**
@@ -28,54 +30,91 @@ const SCALE_STEP = 0.06;
 const CARD_WIDTH = "clamp(11rem,22vw,19rem)";
 const REORDER_SPRING = { type: "spring", stiffness: 260, damping: 30, mass: 0.9 } as const;
 
-function signedOffset(index: number, frontIndex: number, count: number) {
-  const raw = index - frontIndex;
-  return ((raw + count / 2) % count + count) % count - count / 2;
-}
+// This section pins in place (see Slide's `pinSpan`) for several extra
+// viewport-widths/heights of scroll, so cards reveal one-by-one against a
+// long scrubbed timeline instead of during the brief moment the slide would
+// otherwise take to pass by. The reveal window sits inside Slide's settled
+// (fully-opaque, non-drifting) plateau - see `getPinWindow` - with a small
+// inset so it doesn't start/finish right at the pin's own enter/exit edges.
+export const FEATURED_COURSES_PIN_SPAN = 4;
+const { enter: PIN_ENTER, exitStart: PIN_EXIT } = getPinWindow(FEATURED_COURSES_PIN_SPAN);
+const REVEAL_START = PIN_ENTER + 0.015;
+const REVEAL_END = PIN_EXIT - 0.015;
+// Low overlap keeps hand-offs distinct (one card settles before the next
+// noticeably starts) rather than several fading in at once.
+const REVEAL_OVERLAP = 1.3;
+const REVEAL_SPRING = { stiffness: 220, damping: 32, mass: 0.6 } as const;
 
 function DeckCard({
   course,
+  index,
+  count,
   offset,
   isFront,
   onPromote,
   reduceMotion,
+  sectionProgress,
 }: {
   course: Course;
+  index: number;
+  count: number;
   offset: number;
   isFront: boolean;
   onPromote: () => void;
   reduceMotion: boolean;
+  sectionProgress: MotionValue<number>;
 }) {
   const magnitude = Math.abs(offset);
+
+  // Reduced motion: collapse the window to a no-op point (always resolves to
+  // 1) instead of removing the style binding, since a motion value that
+  // stops being read by `style` between renders freezes at its last value
+  // rather than resetting.
+  const span = REVEAL_END - REVEAL_START;
+  const step = span / Math.max(count, 1);
+  const revealStart = reduceMotion ? -1 : REVEAL_START + index * step;
+  const revealEnd = reduceMotion ? -0.999 : Math.min(REVEAL_END, revealStart + step * REVEAL_OVERLAP);
+  const rawReveal = useTransform(sectionProgress, [revealStart, revealEnd], [0, 1], {
+    clamp: true,
+  });
+  const reveal = useSpring(rawReveal, REVEAL_SPRING);
+  const revealY = useTransform(reveal, [0, 1], [30, 0]);
+  const revealScale = useTransform(reveal, [0, 1], [0.92, 1]);
+
   return (
     <motion.div
       className="absolute left-1/2 top-0"
-      style={{ width: CARD_WIDTH }}
-      initial={reduceMotion ? false : { opacity: 0, y: 24 }}
-      whileInView={reduceMotion ? undefined : { opacity: 1 }}
-      viewport={{ once: true, amount: 0.2 }}
-      animate={{
-        x: `${offset * X_STEP_PCT - 50}%`,
-        y: `${magnitude * Y_STEP_PCT}%`,
-        rotate: offset * ANGLE_STEP_DEG,
-        scale: Math.max(0.8, 1 - magnitude * SCALE_STEP),
+      style={{
+        width: CARD_WIDTH,
         zIndex: 100 - Math.round(magnitude),
-      }}
-      transition={
-        reduceMotion
-          ? { duration: 0 }
-          : { ...REORDER_SPRING, delay: magnitude * 0.025 }
-      }
-      onClickCapture={(event) => {
-        if (!isFront) {
-          event.preventDefault();
-          onPromote();
-        }
+        opacity: reveal,
+        y: revealY,
+        scale: revealScale,
       }}
     >
-      <div className="rounded-[1.75rem] bg-surface p-3 shadow-xl shadow-ink/20 ring-1 ring-ink/5">
-        <NotchedVideoCard course={course} creator={getCreatorById(course.creatorId)} compact />
-      </div>
+      <motion.div
+        animate={{
+          x: `${offset * X_STEP_PCT - 50}%`,
+          y: `${magnitude * Y_STEP_PCT}%`,
+          rotate: offset * ANGLE_STEP_DEG,
+          scale: Math.max(0.8, 1 - magnitude * SCALE_STEP),
+        }}
+        transition={
+          reduceMotion
+            ? { duration: 0 }
+            : { ...REORDER_SPRING, delay: magnitude * 0.025 }
+        }
+        onClickCapture={(event) => {
+          if (!isFront) {
+            event.preventDefault();
+            onPromote();
+          }
+        }}
+      >
+        <div className="rounded-[1.75rem] bg-surface p-3 shadow-xl shadow-ink/20 ring-1 ring-ink/5">
+          <NotchedVideoCard course={course} creator={getCreatorById(course.creatorId)} compact />
+        </div>
+      </motion.div>
     </motion.div>
   );
 }
@@ -144,6 +183,10 @@ export function FeaturedCourseCluster({ courses }: { courses: Course[] }) {
   const reduceMotion = useReducedMotionSafe();
   const count = courses.length;
 
+  const slideProgress = useSlideProgress();
+  const fallbackProgress = useMotionValue(1);
+  const sectionProgress = slideProgress ?? fallbackProgress;
+
   return (
     <div className="flex h-full flex-col items-center">
       <div className="flex w-full flex-1 items-center justify-center pt-[clamp(1rem,3vh,2rem)]">
@@ -152,10 +195,13 @@ export function FeaturedCourseCluster({ courses }: { courses: Course[] }) {
             <DeckCard
               key={course.id}
               course={course}
+              index={index}
+              count={count}
               offset={signedOffset(index, frontIndex, count)}
               isFront={index === frontIndex}
               onPromote={() => setFrontIndex(index)}
               reduceMotion={reduceMotion}
+              sectionProgress={sectionProgress}
             />
           ))}
         </div>

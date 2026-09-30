@@ -17,6 +17,10 @@ export function RibbonMarquee({
   // with the real (screen-aligned) edges, even though the ribbon inside is
   // rotated - masking a rotated element directly rotates the fade with it,
   // which is what let the wave get hard-clipped instead of fading out.
+  // Vertical clipping is prevented by sizing the container (see className in
+  // page.tsx) so the rotated+scaled svg never overflows it - a vertical fade
+  // was tried instead, but the rotated line drifts through that band along
+  // its whole length, so it dimmed text that was never actually clipped.
   return (
     <div
       className={className}
@@ -40,6 +44,7 @@ export function RibbonMarquee({
         <path d={WAVE_D} fill="none" stroke="var(--secondary)" strokeWidth={13} strokeLinecap="round" />
         <text
           fill="var(--ink)"
+          dominantBaseline="middle"
           className="font-sans text-[13px] font-bold uppercase tracking-[0.08em]"
         >
           <textPath href={`#${PATH_ID}`} startOffset="0%">

@@ -1,13 +1,14 @@
 import Link from "next/link";
-import { ArrowRight, ArrowUpRight, Asterisk, CheckCircle2 } from "lucide-react";
+import { ArrowUpRight, Asterisk, CheckCircle2 } from "lucide-react";
 import { ScrollTrack } from "@/components/scroll/ScrollTrack";
 import { Slide } from "@/components/layout/Slide";
 import { Container } from "@/components/layout/Container";
 import { Footer } from "@/components/layout/Footer";
 import { Button } from "@/components/ui/Button";
 import { RibbonMarquee } from "@/components/ui/RibbonMarquee";
-import { CategoryTile } from "@/components/ui/CategoryTile";
-import { FeaturedCourseCluster } from "@/components/ui/FeaturedCourseCluster";
+import { PathDeck } from "@/components/ui/PathDeck";
+import { CourseList } from "@/components/ui/CourseList";
+import { FeaturedCourseCluster, FEATURED_COURSES_PIN_SPAN } from "@/components/ui/FeaturedCourseCluster";
 import { HeroCardStack } from "@/components/ui/HeroCardStack";
 import { HeroDoodles } from "@/components/ui/HeroDoodles";
 import { HeroSearchSpotlight } from "@/components/ui/HeroSearchSpotlight";
@@ -39,7 +40,7 @@ export default function HomePage() {
             <HeroDoodles />
             <RibbonMarquee
               items={categories.map((category) => category.name)}
-              className="pointer-events-none absolute inset-x-0 top-1/2 z-0 hidden h-[22dvh] max-h-40 min-h-24 w-full -translate-y-1/2 lg:block"
+              className="pointer-events-none absolute inset-x-0 top-1/2 z-0 hidden h-[clamp(9rem,13vw,18rem)] w-full -translate-y-1/2 lg:block"
               rotateClassName="-rotate-6 scale-125"
             />
           </>
@@ -120,6 +121,7 @@ export default function HomePage() {
       <Slide
         label="Featured courses"
         depth={1.1}
+        pinSpan={FEATURED_COURSES_PIN_SPAN}
         backdrop={<SectionDoodles seed={2} density="medium" />}
       >
         <Container width="wide" className="relative z-10 flex h-full flex-col">
@@ -141,27 +143,11 @@ export default function HomePage() {
             </p>
           </div>
 
-          <div className="grid grid-cols-[repeat(auto-fit,minmax(min(100%,14rem),1fr))] max-w-[min(100%,68rem)] gap-[clamp(0.75rem,1.6vw,1.25rem)]">
-            {categories.slice(0, 3).map((category) => (
-              <CategoryTile key={category.id} category={category} />
-            ))}
-          </div>
+          <PathDeck categories={categories} />
 
           <div className="flex flex-col gap-3">
             <h3 className="text-subtitle font-semibold text-ink">Level up your career</h3>
-            <ol className="grid gap-2 sm:grid-cols-2 lg:grid-cols-3">
-              {courses.map((course) => (
-                <li key={course.id}>
-                  <Link
-                    href={`/course/${course.id}`}
-                    className="flex h-full items-center justify-between gap-3 rounded-2xl bg-surface px-[clamp(1rem,1.4vw,1.5rem)] py-[clamp(0.6rem,1.4vh,1rem)] transition-colors duration-300 hover:bg-soft/30"
-                  >
-                    <span className="text-meta font-semibold text-ink">{course.title}</span>
-                    <ArrowRight className="h-4 w-4 shrink-0 text-ink-muted" aria-hidden />
-                  </Link>
-                </li>
-              ))}
-            </ol>
+            <CourseList courses={courses} />
           </div>
         </Container>
       </Slide>
