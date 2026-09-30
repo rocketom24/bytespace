@@ -49,7 +49,7 @@ export function CatMascot({
         initial={{ opacity: 0, y: 8, scale: 0.92 }}
         animate={{ opacity: 1, y: 0, scale: 1 }}
         transition={{ duration: 0.45, ease: "easeOut" }}
-        className="relative z-10 mb-[-0.35rem] w-fit max-w-[11rem] rounded-2xl bg-surface px-3.5 py-2 text-center shadow-md shadow-ink/10"
+        className="relative z-10 mb-[-0.35rem] w-fit max-w-[11rem] rounded-2xl bg-surface px-3.5 py-2 text-center shadow-md shadow-ink/10 ring-2 ring-accent/40"
       >
         <p className="text-micro font-semibold text-ink">{bubble}</p>
         <span

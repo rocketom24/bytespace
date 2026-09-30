@@ -56,11 +56,7 @@ export default function HomePage() {
         <Container className="relative z-10 grid items-center gap-[clamp(1.5rem,3.2vw,3.5rem)] lg:grid-cols-[minmax(0,1fr)_auto_minmax(0,1fr)] lg:items-stretch">
           <div className="relative flex flex-col gap-[clamp(1.5rem,4vh,3rem)] lg:z-20 lg:h-full lg:justify-center lg:py-[clamp(1rem,6vh,4rem)] lg:pr-4">
             <div className="flex flex-col gap-[clamp(0.9rem,2vh,1.5rem)]">
-              <span className="inline-flex w-fit items-center gap-2 rounded-full border border-ink/10 bg-surface px-3.5 py-1.5 text-micro font-semibold uppercase tracking-wide text-ink shadow-sm shadow-ink/5">
-                <span className="h-1.5 w-1.5 rounded-full bg-accent" aria-hidden />
-                New season · Six learning tracks
-              </span>
-              <h1 className="whitespace-nowrap text-[clamp(2.4rem,3.8vw,4rem)] font-bold leading-[1.05] tracking-[-0.03em] text-ink">
+              <h1 className="whitespace-nowrap text-[clamp(2.65rem,4.2vw,4.4rem)] font-bold leading-[1.05] tracking-[-0.03em] text-ink">
                 Get access to
                 <br />
                 <span className="text-accent underline decoration-wavy decoration-[3px] underline-offset-[7px]">
@@ -211,7 +207,7 @@ export default function HomePage() {
         label="Learning paths"
         depth={0.9}
         pinSpan={DEFAULT_PIN_SPAN}
-        backdrop={<SectionDoodles seed={3} density="rich" />}
+        backdrop={<SectionDoodles seed={3} density="rich" accentWeight={0.4} />}
       >
         <Container width="wide" className="relative z-10 flex flex-col gap-[var(--block)]">
           <div className="flex flex-col gap-3">

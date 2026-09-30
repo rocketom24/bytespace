@@ -96,7 +96,7 @@ function Chip({
         "rounded-full border px-3 py-1.5 text-micro font-medium transition-colors duration-200",
         active
           ? "border-accent bg-accent text-background"
-          : "border-ink/10 bg-surface text-ink-muted hover:border-accent/50 hover:text-ink"
+          : "border-ink/10 bg-surface text-ink-muted hover:border-accent hover:text-accent"
       )}
     >
       {children}

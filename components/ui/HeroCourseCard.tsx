@@ -4,6 +4,7 @@ import { useEffect, useState, type MouseEvent } from "react";
 import { animate, motion, useMotionValue, type PanInfo } from "framer-motion";
 import { ArrowLeft, ArrowRight, Bookmark, Play, Star } from "lucide-react";
 import { cn } from "@/lib/cn";
+import { CourseThumbnail } from "@/components/ui/thumbnails/CourseThumbnail";
 import { getCreatorById } from "@/lib/creators";
 import type { Course } from "@/data/courses";
 
@@ -97,12 +98,11 @@ export function HeroCourseCard({
       whileHover={isFront ? { scale: 1.03, y: -6 } : undefined}
       whileDrag={{ cursor: "grabbing" }}
       className={cn(
-        "group relative flex h-[clamp(16rem,48vh,24rem)] w-full flex-col justify-end overflow-hidden rounded-3xl shadow-lg shadow-ink/10 lg:absolute lg:inset-0 lg:h-full",
+        "group relative flex h-[clamp(16rem,48vh,24rem)] w-full flex-col justify-end overflow-hidden rounded-3xl shadow-lg shadow-ink/10 ring-4 ring-inset ring-primary lg:absolute lg:inset-0 lg:h-full",
         isFront ? "cursor-grab active:cursor-grabbing lg:cursor-none" : "",
         className
       )}
       style={{
-        backgroundColor: course.coverColor,
         zIndex,
         x,
         y,
@@ -112,6 +112,8 @@ export function HeroCourseCard({
         backfaceVisibility: "hidden",
       }}
     >
+      <CourseThumbnail course={course} className="pointer-events-none" showPlay={false} />
+
       {isFront ? (
         <motion.div
           className="pointer-events-none absolute z-20 hidden -translate-x-1/2 -translate-y-1/2 items-center gap-2 whitespace-nowrap rounded-full bg-ink px-4 py-2 text-xs font-semibold text-background shadow-lg shadow-ink/20 lg:flex"

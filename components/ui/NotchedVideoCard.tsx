@@ -2,6 +2,7 @@ import Link from "next/link";
 import { ViewTransition } from "react";
 import { ArrowUpRight, Star } from "lucide-react";
 import { Badge } from "@/components/ui/Badge";
+import { CourseThumbnail } from "@/components/ui/thumbnails/CourseThumbnail";
 import { cn } from "@/lib/cn";
 import { PRESS_INTERACTIVE } from "@/lib/motion";
 import type { Course } from "@/data/courses";
@@ -16,11 +17,14 @@ export function NotchedVideoCard({
   creator,
   compact,
   className,
+  accent,
 }: {
   course: Course;
   creator?: Creator;
   compact?: boolean;
   className?: string;
+  /** Warms up the category badge and rating star with coral/terracotta. */
+  accent?: boolean;
 }) {
   return (
     <Link
@@ -29,10 +33,8 @@ export function NotchedVideoCard({
     >
       <div className="relative">
         <ViewTransition name={`course-cover-${course.id}`} share="auto" default="none">
-          <div
-            className="relative aspect-3/2 overflow-hidden rounded-3xl ring-1 ring-inset ring-ink/10 transition-transform duration-500 group-hover:scale-[1.02]"
-            style={{ backgroundColor: course.coverColor }}
-          >
+          <div className="relative aspect-3/2 overflow-hidden rounded-3xl ring-4 ring-inset ring-primary transition-transform duration-500 group-hover:scale-[1.02]">
+            <CourseThumbnail course={course} />
             <Badge className="absolute left-2.5 top-2.5 bg-surface/80 text-ink">
               {course.price === 0 ? "Free" : "Premium"}
             </Badge>
@@ -63,7 +65,7 @@ export function NotchedVideoCard({
 
         <span
           aria-hidden
-          className="absolute bottom-0 right-0 flex items-center justify-center rounded-full bg-accent text-background shadow-md shadow-ink/15 transition-[scale,background-color] duration-300 group-hover:scale-105 group-hover:bg-ink"
+          className="absolute bottom-0 right-0 flex items-center justify-center rounded-full bg-primary text-background shadow-md shadow-ink/15 transition-[scale,background-color] duration-300 group-hover:scale-105 group-hover:bg-ink"
           style={{ width: DISC, height: DISC }}
         >
           <ArrowUpRight
@@ -84,13 +86,13 @@ export function NotchedVideoCard({
       {!compact && <p className="line-clamp-2 text-micro text-ink-muted">{course.summary}</p>}
 
       <div className="flex flex-wrap gap-1.5">
-        <Badge>{course.category}</Badge>
+        <Badge className={accent ? "bg-accent/15! text-accent!" : undefined}>{course.category}</Badge>
         <Badge>{course.level}</Badge>
       </div>
 
       <div className="mt-auto flex items-center justify-between text-micro text-ink-muted">
         <span className="flex items-center gap-1 font-semibold text-ink">
-          <Star className="h-3 w-3 fill-current text-primary" aria-hidden />
+          <Star className={cn("h-3 w-3 fill-current", accent ? "text-accent" : "text-primary")} aria-hidden />
           {course.rating}
           <span className="font-normal text-ink-muted">({course.commentCount})</span>
         </span>

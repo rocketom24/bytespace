@@ -98,11 +98,12 @@ function shuffle<T>(rand: () => number, items: T[]): T[] {
   return result;
 }
 
-function buildRecipe(seed: number, density: keyof typeof DENSITY) {
+function buildRecipe(seed: number, density: keyof typeof DENSITY, accentWeight: number) {
   const rand = mulberry32(seed);
   const counts = DENSITY[density];
   const zoneOrder = shuffle(rand, ZONES);
   const nextZone = (i: number) => zoneWithJitter(rand, zoneOrder[i % zoneOrder.length]);
+  const pickColorClass = () => (rand() < accentWeight ? "text-accent" : TEXT_COLOR_CLASSES[Math.floor(rand() * TEXT_COLOR_CLASSES.length)]);
 
   const strokes = Array.from({ length: density === "light" ? 2 : 3 }, (_, i) => ({
     d: strokePath(rand),
@@ -119,7 +120,7 @@ function buildRecipe(seed: number, density: keyof typeof DENSITY) {
       ...nextZone(i + 1),
       size: Math.round(tier.min + rand() * (tier.max - tier.min)),
       rotate: Math.round((rand() - 0.5) * 80),
-      colorClass: TEXT_COLOR_CLASSES[Math.floor(rand() * TEXT_COLOR_CLASSES.length)],
+      colorClass: pickColorClass(),
       opacityValue: (tier.opacityMin + rand() * (tier.opacityMax - tier.opacityMin)).toFixed(2),
       hiddenBelow: tier.forceHidden || rand() < 0.2,
     };
@@ -128,7 +129,7 @@ function buildRecipe(seed: number, density: keyof typeof DENSITY) {
   const rings = Array.from({ length: counts.rings }, (_, i) => ({
     ...nextZone(i + 2),
     size: Math.round(12 + rand() * 16),
-    colorClass: TEXT_COLOR_CLASSES[Math.floor(rand() * TEXT_COLOR_CLASSES.length)],
+    colorClass: pickColorClass(),
     opacityValue: (0.3 + rand() * 0.28).toFixed(2),
     dashed: rand() < 0.5,
   }));
@@ -139,7 +140,7 @@ function buildRecipe(seed: number, density: keyof typeof DENSITY) {
     ...nextZone(i + 3),
     size: Math.round(22 + rand() * 18),
     rotate: Math.round((rand() - 0.5) * 40),
-    colorClass: TEXT_COLOR_CLASSES[Math.floor(rand() * TEXT_COLOR_CLASSES.length)],
+    colorClass: pickColorClass(),
     opacityValue: (0.28 + rand() * 0.24).toFixed(2),
   }));
 
@@ -152,15 +153,18 @@ function buildRecipe(seed: number, density: keyof typeof DENSITY) {
 export function SectionDoodles({
   seed,
   density = "medium",
+  accentWeight = 0,
 }: {
   seed: number;
   density?: keyof typeof DENSITY;
+  /** Probability (0-1) that a doodle/ring/mark renders in coral instead of the usual palette. */
+  accentWeight?: number;
 }) {
   const fallback = useMotionValue(0.5);
   const slideProgress = useSlideProgress();
   const reduceMotion = useReducedMotionSafe();
   const trackedProgress = slideProgress ?? fallback;
-  const recipe = buildRecipe(seed, density);
+  const recipe = buildRecipe(seed, density, accentWeight);
   const driftRange = reduceMotion ? 0 : recipe.parallaxRange;
   const drift = useTransform(trackedProgress, [0, 0.5, 1], [driftRange, 0, -driftRange]);
 

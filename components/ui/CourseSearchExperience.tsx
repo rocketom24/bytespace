@@ -35,7 +35,7 @@ export function CourseSearchExperience({
   return (
     <section className="relative w-full overflow-hidden px-[var(--gutter)] pb-[var(--block)] pt-[var(--nav-space)]">
       <div aria-hidden className="absolute inset-0 z-0">
-        <SectionDoodles seed={13} density="light" />
+        <SectionDoodles seed={13} density="light" accentWeight={0.4} />
       </div>
 
       <Container width="wide" className="relative z-10 flex flex-col gap-[var(--block)]">
@@ -56,7 +56,7 @@ export function CourseSearchExperience({
             <button
               type="button"
               onClick={() => setFilters(EMPTY_FILTERS)}
-              className="flex items-center gap-1 text-meta font-medium text-primary hover:text-ink"
+              className="flex items-center gap-1 text-meta font-medium text-accent hover:text-ink"
             >
               <X className="h-3.5 w-3.5" aria-hidden />
               Clear filters
@@ -68,7 +68,7 @@ export function CourseSearchExperience({
           {filtered.length > 0 ? (
             <div className="grid w-full grid-cols-1 gap-[clamp(0.75rem,1.6vw,1.5rem)] sm:grid-cols-2 lg:grid-cols-4">
               {filtered.map((course) => (
-                <NotchedVideoCard key={course.id} course={course} creator={getCreatorById(course.creatorId)} />
+                <NotchedVideoCard key={course.id} course={course} creator={getCreatorById(course.creatorId)} accent />
               ))}
             </div>
           ) : (

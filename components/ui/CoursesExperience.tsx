@@ -50,7 +50,7 @@ export function CoursesExperience({
   return (
     <section className="relative flex w-full flex-col overflow-x-hidden px-[var(--gutter)] py-[var(--nav-space)] lg:min-h-dvh lg:justify-center">
       <div aria-hidden className="absolute inset-0 z-0">
-        <SectionDoodles seed={11} density="medium" />
+        <SectionDoodles seed={11} density="medium" accentWeight={0.4} />
       </div>
 
       <Container width="wide" className="relative z-10 flex flex-col items-center gap-[clamp(1.25rem,2.4vh,2rem)]">
@@ -93,7 +93,7 @@ export function CoursesExperience({
                   <button
                     type="button"
                     onClick={() => setFilters(EMPTY_FILTERS)}
-                    className="flex items-center gap-1 text-meta font-medium text-primary hover:text-ink"
+                    className="flex items-center gap-1 text-meta font-medium text-accent hover:text-ink"
                   >
                     <X className="h-3.5 w-3.5" aria-hidden />
                     Clear filters
@@ -112,7 +112,7 @@ export function CoursesExperience({
                   <select
                     value={sort}
                     onChange={(event) => setSort(event.target.value as CourseSort)}
-                    className="rounded-full border border-ink/10 bg-surface px-3 py-1.5 text-meta font-medium text-ink outline-none"
+                    className="rounded-full border border-ink/10 bg-surface px-3 py-1.5 text-meta font-medium text-ink outline-none focus:border-accent"
                   >
                     {COURSE_SORT_OPTIONS.map((option) => (
                       <option key={option.id} value={option.id}>
@@ -126,7 +126,7 @@ export function CoursesExperience({
               {results.length > 0 ? (
                 <div className="grid w-full max-w-[min(100%,68rem)] grid-cols-1 gap-[clamp(0.75rem,1.6vw,1.5rem)] sm:grid-cols-2 lg:grid-cols-3">
                   {results.map((course) => (
-                    <NotchedVideoCard key={course.id} course={course} creator={getCreatorById(course.creatorId)} />
+                    <NotchedVideoCard key={course.id} course={course} creator={getCreatorById(course.creatorId)} accent />
                   ))}
                 </div>
               ) : (
@@ -144,7 +144,7 @@ export function CoursesExperience({
                 <button
                   type="button"
                   onClick={() => setFilters(EMPTY_FILTERS)}
-                  className="flex items-center gap-1 text-meta font-medium text-primary hover:text-ink"
+                  className="flex items-center gap-1 text-meta font-medium text-accent hover:text-ink"
                 >
                   <X className="h-3.5 w-3.5" aria-hidden />
                   Clear filters
@@ -154,7 +154,7 @@ export function CoursesExperience({
               {suggested.length > 0 ? (
                 <div className="grid w-full max-w-[min(100%,52rem)] grid-cols-2 gap-[clamp(0.6rem,1.2vw,1rem)] sm:grid-cols-3">
                   {suggested.map((course) => (
-                    <NotchedVideoCard key={course.id} course={course} creator={getCreatorById(course.creatorId)} compact />
+                    <NotchedVideoCard key={course.id} course={course} creator={getCreatorById(course.creatorId)} compact accent />
                   ))}
                 </div>
               ) : (
@@ -164,7 +164,11 @@ export function CoursesExperience({
           )}
           </motion.div>
 
-          <Button href="/courses/all" variant="outline">
+          <Button
+            href="/courses/all"
+            variant="outline"
+            className="border-accent/40! text-accent! hover:border-accent! hover:bg-accent! hover:text-background!"
+          >
             View All Courses
           </Button>
         </div>

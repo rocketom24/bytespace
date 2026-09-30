@@ -25,7 +25,7 @@
   --color-ink-muted: var(--ink-muted);
   --color-surface: var(--surface);
   --color-accent: var(--accent);
-  --font-sans: var(--font-jakarta);
+  --font-sans: var(--font-pally);
 }
 
 body {
@@ -34,7 +34,7 @@ body {
 }
 
 .text-display {
-  font-size: clamp(2.25rem, min(3.6vw, 6.6vh), 3.5rem);
+  font-size: clamp(2.5rem, min(4vw, 7.25vh), 3.85rem);
   line-height: 1.03;
   letter-spacing: -0.035em;
 }

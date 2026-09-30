@@ -35,7 +35,7 @@ export default async function LessonPage(props: PageProps<"/lesson/[id]">) {
               Back to {course.title}
             </Link>
           )}
-          <h1 className="max-w-[20ch] text-title font-bold text-ink">{lesson.title}</h1>
+          <h1 className="max-w-[20ch] text-display font-bold text-ink">{lesson.title}</h1>
           <div className="flex h-[clamp(11rem,38vh,22rem)] w-full items-center justify-center rounded-3xl bg-ink text-meta text-background">
             Lesson player placeholder
           </div>
