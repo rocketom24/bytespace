@@ -77,6 +77,7 @@ export default async function CoursePage(props: PageProps<"/course/[id]">) {
         label="Reviews & FAQ"
         depth={0.8}
         pinSpan={DEFAULT_PIN_SPAN}
+        isLast
         backdrop={<SectionDoodles seed={25} density="light" />}
       >
         <Container width="wide" className="relative z-10 grid gap-[clamp(1.5rem,3vw,2.5rem)] lg:grid-cols-3 lg:items-start">

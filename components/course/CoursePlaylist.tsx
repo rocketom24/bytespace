@@ -17,7 +17,7 @@ export function CoursePlaylist({
   return (
     <div className="flex h-full flex-col rounded-3xl bg-surface p-[clamp(0.75rem,1.2vw,1.1rem)] shadow-sm shadow-ink/5">
       <p className="px-2 pb-2 text-meta font-semibold text-ink">Course content</p>
-      <div className="flex-1 overflow-y-auto pr-1">
+      <div data-lenis-prevent className="flex-1 overflow-y-auto pr-1">
         <ol className="flex flex-col gap-3">
           {sections.map((section) => (
             <li key={section.id}>

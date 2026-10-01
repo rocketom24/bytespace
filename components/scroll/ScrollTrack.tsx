@@ -11,7 +11,14 @@ import {
   type RefObject,
 } from "react";
 import Lenis from "lenis";
-import { motion, useMotionValue, useMotionValueEvent, useTransform, type MotionValue } from "framer-motion";
+import {
+  AnimatePresence,
+  motion,
+  useMotionValue,
+  useMotionValueEvent,
+  useTransform,
+  type MotionValue,
+} from "framer-motion";
 import { ArrowRight } from "lucide-react";
 import { useReducedMotionSafe } from "@/lib/useReducedMotionSafe";
 import { setHomeScrollToStart } from "@/lib/homeScroll";
@@ -266,6 +273,33 @@ export function ScrollTrack({ children }: { children: React.ReactNode }) {
             </button>
           </div>
         </nav>
+      )}
+
+      {sections.length > 1 && (
+        <div className="pointer-events-none fixed right-0 top-1/2 z-40 hidden h-[52vh] max-h-112 min-h-64 -translate-y-1/2 sm:block">
+          <AnimatePresence mode="wait">
+            {sections[active + 1] && (
+              <motion.button
+                key={sections[active + 1].id}
+                type="button"
+                onClick={() => goTo(sections[active + 1])}
+                aria-label={`Next: ${sections[active + 1].label}`}
+                initial={reduceMotion ? false : { opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={reduceMotion ? undefined : { opacity: 0 }}
+                transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
+                className="pointer-events-auto flex h-full w-14 flex-col items-center gap-2 rounded-l-4xl border border-r-0 border-white/40 bg-secondary/55 pt-6 shadow-[-12px_0_32px_rgba(22,33,27,0.08)] backdrop-blur-xl backdrop-saturate-150 transition-colors hover:bg-secondary/70"
+              >
+                <span className="text-[10px] font-bold tabular-nums text-ink/70">
+                  {String(active + 2).padStart(2, "0")}
+                </span>
+                <span className="text-micro font-bold uppercase tracking-[0.14em] text-ink [writing-mode:vertical-rl]">
+                  {sections[active + 1].label}
+                </span>
+              </motion.button>
+            )}
+          </AnimatePresence>
+        </div>
       )}
     </TrackContext.Provider>
   );

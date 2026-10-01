@@ -171,7 +171,7 @@ function SearchResultsContainer({
   onHover: (index: number | null) => void;
 }) {
   return (
-    <div onMouseLeave={() => onHover(null)} className="flex max-h-80 w-full flex-col overflow-y-auto p-2">
+    <div onMouseLeave={() => onHover(null)} data-lenis-prevent className="flex max-h-80 w-full flex-col overflow-y-auto p-2">
       {results.length === 0 && (
         <p className="px-2 py-3 text-meta text-ink-muted">No courses match your search.</p>
       )}
@@ -239,11 +239,17 @@ export function HeroSearchSpotlight({ onSubmit }: { onSubmit?: (query: string) =
         layout="position"
         transition={{ layout: { duration: 0.4, type: "spring", bounce: 0.25 } }}
         className={cn(
-          "relative z-10 flex w-full items-center overflow-hidden rounded-full border-2 bg-surface shadow-lg shadow-primary/30 transition-colors duration-300",
-          open ? "border-primary" : "animate-search-glow border-primary hover:shadow-xl"
+          "relative z-10 flex w-full items-center overflow-hidden rounded-full border-2 border-primary bg-surface shadow-lg shadow-primary/30 transition-colors duration-300",
+          !open && "hover:shadow-xl"
         )}
         onClick={() => !open && setOpen(true)}
       >
+        {!open && (
+          <span
+            aria-hidden
+            className="animate-search-glow pointer-events-none absolute inset-0 rounded-full border-2 border-primary"
+          />
+        )}
         <SpotlightInput
           open={open}
           placeholder={

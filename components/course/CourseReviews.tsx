@@ -35,7 +35,7 @@ export function CourseReviews({ course }: { course: Course }) {
         </div>
       </div>
 
-      <div className="max-h-[clamp(13rem,30vh,18rem)] overflow-y-auto pr-1">
+      <div data-lenis-prevent className="max-h-[clamp(13rem,30vh,18rem)] overflow-y-auto pr-1">
         <div className="flex flex-col gap-3">
           {reviews.map((review) => (
             <div key={review.id} className="flex flex-col gap-2 rounded-2xl bg-surface p-[clamp(0.9rem,1.2vw,1.25rem)] shadow-sm shadow-ink/5">

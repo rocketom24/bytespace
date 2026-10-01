@@ -145,12 +145,18 @@ export function Footer() {
           onSubmit={(event) => event.preventDefault()}
           className="flex w-full max-w-md gap-3"
         >
-          <input
-            type="email"
-            required
-            placeholder="you@example.com"
-            className="animate-search-glow w-full rounded-full border-2 border-primary/30 bg-surface px-5 py-[clamp(0.6rem,1.4vh,0.9rem)] text-meta text-ink outline-none transition-[color,border-color,transform] duration-200 placeholder:text-ink-muted focus-visible:scale-[1.01] focus-visible:border-primary"
-          />
+          <div className="relative w-full">
+            <span
+              aria-hidden
+              className="animate-search-glow pointer-events-none absolute inset-0 rounded-full border-2 border-primary"
+            />
+            <input
+              type="email"
+              required
+              placeholder="you@example.com"
+              className="relative w-full rounded-full border-2 border-primary/30 bg-surface px-5 py-[clamp(0.6rem,1.4vh,0.9rem)] text-meta text-ink outline-none transition-[color,border-color,transform] duration-200 placeholder:text-ink-muted focus-visible:scale-[1.01] focus-visible:border-primary"
+            />
+          </div>
           <Button type="submit" className={cn("shrink-0", HOVER_LIFT)}>
             Subscribe
           </Button>

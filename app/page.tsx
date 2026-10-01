@@ -316,6 +316,7 @@ export default function HomePage() {
       <Slide
         label="Stay in the loop"
         depth={0.7}
+        isLast
         backdrop={<SectionDoodles seed={6} density="medium" />}
       >
         <Container width="wide" className="relative z-10">

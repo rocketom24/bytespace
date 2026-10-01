@@ -42,6 +42,7 @@ export function Slide({
   depth = 1,
   pinSpan = 1,
   mobilePinSpan = pinSpan,
+  isLast = false,
 }: {
   children: React.ReactNode;
   backdrop?: React.ReactNode;
@@ -54,6 +55,8 @@ export function Slide({
   pinSpan?: number;
   /** Same, but for the mobile (viewport-heights) track. Defaults to `pinSpan`. */
   mobilePinSpan?: number;
+  /** Last slide in the track: nothing follows it, so it should stay settled at the scroll end instead of fading/sliding out. */
+  isLast?: boolean;
 }) {
   const ref = useRef<HTMLElement>(null);
   const metrics = useRef({ start: 0, length: 1, viewport: 1 });
@@ -103,14 +106,17 @@ export function Slide({
   const { enter, exitStart } = getPinWindow(isPinned ? span : 1);
   const shift = 110 * depth;
   const xInput = isPinned ? [0, enter, exitStart, 1] : [0, 0.5, 1];
-  const x = useTransform(progress, xInput, isPinned ? [shift, 0, 0, -shift] : [shift, 0, -shift]);
+  const xExit = isLast ? 0 : -shift;
+  const yExit = isLast ? 0 : -shift * 0.4;
+  const scaleExit = isLast ? 1 : 0.96;
+  const x = useTransform(progress, xInput, isPinned ? [shift, 0, 0, xExit] : [shift, 0, xExit]);
   const y = useTransform(
     progress,
     xInput,
-    isPinned ? [shift * 0.4, 0, 0, -shift * 0.4] : [shift * 0.4, 0, -shift * 0.4],
+    isPinned ? [shift * 0.4, 0, 0, yExit] : [shift * 0.4, 0, yExit],
   );
-  const opacity = useTransform(progress, [0, enter, exitStart, 1], [0.15, 1, 1, 0.15]);
-  const scale = useTransform(progress, xInput, isPinned ? [0.96, 1, 1, 0.96] : [0.96, 1, 0.96]);
+  const opacity = useTransform(progress, [0, enter, exitStart, 1], [0.15, 1, 1, isLast ? 1 : 0.15]);
+  const scale = useTransform(progress, xInput, isPinned ? [0.96, 1, 1, scaleExit] : [0.96, 1, scaleExit]);
 
   const motionStyle = reduceMotion
     ? undefined

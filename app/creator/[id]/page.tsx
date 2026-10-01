@@ -40,6 +40,7 @@ export default async function CreatorPage(props: PageProps<"/creator/[id]">) {
         label="Courses"
         depth={1}
         pinSpan={DEFAULT_PIN_SPAN}
+        isLast
         backdrop={<SectionDoodles seed={16} density="light" />}
       >
         <Container width="wide" className="relative z-10 flex flex-col gap-[var(--block)]">
